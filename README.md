@@ -15,7 +15,6 @@
     - [Feature Branch Workflow](#feature-branch-workflow)
     - [Forking Workflow.](#forking-workflow)
   - [Useful Git](#useful-git)
-  - [Useful Git](useful-git)
     - [Git Amend](#git-amend)
     - [Git Reset](#git-reset)
   - [Advanced Git Methods](#advanced-git-methods)
@@ -150,7 +149,7 @@ All Git repos contain the same information (when up-to-date) so Git is peer-to-p
 
 ### Merging: How Git manages concurrent changes
 
-Suppose a central repository master branch initially has most recent Commit _C_, and Commit history: _C_ --> _B_ --> _A_. The arrows go from commits to their parents (the previous commit to which they link in the branch history). _C_ is the HEAD of the origin commit history.
+Suppose a central repository master branch initially has most recent Commit _C_, and Commit history: _C_ --> _B_ --> _A_. The arrows go from commits to their parents (the previous commit to which they link in the branch history). _C_ is the HEAD of the central commit history.
 
 Two team members, David and Eddie, make respective Commits _D_ and _E_ on their local cloned copies with origin the central repo:
 
@@ -183,7 +182,7 @@ David now cannot Push to central, because that would lead to an origin Commit hi
 </p>
 
 
-This picture leaves out one important detail: the distinction between the HEAD of the local *master* branch of the repo - set to the merge result _F_ - and the *working tree of files* visible to David. The merge operation in the Pull updates local files so that they are the the same as _F_. In fact this is the only way in which local files can ever be updated with remote changes.
+This picture leaves out one important detail: the distinction between the HEAD of the local *master* branch of the repo - set to the merge result _F_ - and the *working tree of files* visible to David. The merge operation in the Pull updates local files so that they are the the same as _F_.
 
 ### When Automatic Merge Fails
 
@@ -316,11 +315,19 @@ This is no different from cloning except that your copy of the repo has a differ
 
 ## Useful Git
 
+The commands here are useful and relatively simple to use.
+
 ### Git Amend
 
-Suppose you have made a _local_ commit and suddenly realise you forgot something. Instead of doing another commit, you can do a `commit --amend` that will change the most recent commit adding your new changes to it.
+Suppose you have made a _local_ commit (not yet pushed) and suddenly realise you forgot something. Instead of doing another commit, you can do a `commit --amend` that will change the most recent commit adding your new changes to it.
 
-This is safe and a great idea to reduce the number of useless commits. One restriction is that it will not work once you have Pushed a commit outside your local repo.
+This is safe and a great idea to reduce the number of useless commits. One restriction is that it _will not work easily once you have Pushed the commit outside your local repo_. In that case you have to fix up things after the amend as follows:
+
+* Pull
+* Merge
+* Manually delete conflict markers in merge conflict file
+* Commit
+* Push
 
 You can use Git command line tools, or Git GUI to implement `git --amend`. Git GUI is similar to GitHub GUI but not recommended for normal use because it exposes the confusing _staging area_. However it allows a larger set of advanced git commands with some GUI help. 
 
