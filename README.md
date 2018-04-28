@@ -466,9 +466,17 @@ To use `Git GUI` to make an amend:
 
 ### Git Rebase
 
-If you want to remove multiple local commits `git rebase` can do this. Again, do not do this after pushing commits to a central repo. There is in Git no satisfactory way to clean up globally pushed commits. It is worth understanding why that cannot be allowed. Git must work properly whatever local clones do: and they may use any historic commit to merge etc. If commits can be deleted in one clone there can be no guarantee that the same commit is not used by another clone. Therefore removing a historic commit is inherently unsafe if the commit is not provably only local. Of course deleting the effect of a commit, or rolling back to a historic commit state, is all allowed by making a new commit with the changes. That simply extends the commit history and is safe.
+If you want to remove multiple local commits `git rebase` can do this. Again, do not do this after pushing commits to a central repo. There is in Git no satisfactory way to clean up globally pushed and shared commits. It is worth understanding why that cannot be allowed. Git must work properly whatever local clones do: and they may use any historic commit to merge etc. If commits can be deleted in one clone there can be no guarantee that the same commit is not used by another clone. Therefore removing a historic commit is inherently unsafe if the commit is not provably only local. Of course deleting the effect of a commit, or rolling back to a historic commit state, is all allowed by making a new commit with the changes. That simply extends the commit history and is safe.
 
-The radical solution (to remove pushed history) is to copy the repo to a new repo leaving out the earlier part of the history using a [graft](https://git.wiki.kernel.org/index.php/GraftPoint). That is not supported here.
+The preferred way to use rebase is as follows:
+
+* `git rebase -i <somecommit>`
+An editor will open up with a list of all the ommits to be rebased and instructions
+* change each line as specified to process that commit
+* Exit the editor
+* Rebase will process the edited file and finish.
+
+One radical solution (to remove pushed history) is to copy the repo to a new repo leaving out the earlier part of the history using a [graft](https://git.wiki.kernel.org/index.php/GraftPoint). That is not supported here. However, see [the alternative strategy](deleting-all-past-history) creating a new orphan branch and renaming it master. 
 
 ## Glossary
 
