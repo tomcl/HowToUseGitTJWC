@@ -15,6 +15,7 @@
     - [Feature Branch Workflow](#feature-branch-workflow)
     - [Forking Workflow.](#forking-workflow)
   - [Useful Git](#useful-git)
+  - [Useful Git](useful-git)
     - [Git Amend](#git-amend)
     - [Git Reset](#git-reset)
   - [Advanced Git Methods](#advanced-git-methods)
