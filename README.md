@@ -14,6 +14,9 @@
     - [Centralised Workflow](#centralised-workflow)
     - [Feature Branch Workflow](#feature-branch-workflow)
     - [Forking Workflow.](#forking-workflow)
+  - [Useful Git](useful-git)
+    - [Git Amend](#git-amend)
+    - [Git Reset](#git-reset)
   - [Advanced Git Methods](#advanced-git-methods)
     - [Rebase](#rebase)
     - [Checkout, Revert and Reset](#checkout--revert-and-reset)
@@ -21,7 +24,6 @@
     - [Git Staging Area](#git-staging-area)
     - [.gitignore](#gitignore)
   - [Keeping Commit History Clean](#keeping-commit-history-clean)
-    - [Git Amend](#git-amend)
     - [Git Rebase](#git-rebase)
   - [Glossary](#glossary)
 
@@ -311,19 +313,41 @@ This is no different from cloning except that your copy of the repo has a differ
 * You can submit a **Pull Request** to the open source repo team to pull the changes from your fork back onto the central open source repo.
 
 
+## Useful Git
+
+### Git Amend
+
+Suppose you have made a _local_ commit and suddenly realise you forgot something. Instead of doing another commit, you can do a `commit --amend` that will change the most recent commit adding your new changes to it.
+
+This is safe and a great idea to reduce the number of useless commits. One restriction is that it will not work once you have Pushed a commit outside your local repo.
+
+You can use Git command line tools, or Git GUI to implement `git --amend`. Git GUI is similar to GitHub GUI but not recommended for normal use because it exposes the confusing _staging area_. However it allows a larger set of advanced git commands with some GUI help. 
+
+To use `Git GUI` to make an amend:
+
+* start Git GUI and open your local repo
+* click in Git GUI
+  * Stage changed
+  * Amend Last Commit
+  * Commit
+
+`Git --amend` is recommended.
+
+### Git Reset
+
+Sometimes you want to abandon unsaved changes in working files and return to the last commit. The command here is `git reset --hard` which will need to be executed from a command line. This command permanently deletes any unsaved changes, so be careful.
+
 ## Advanced Git Methods
 
 ### Rebase
 
-The 'standard' Merge operation makes diamonds in repo commit history. There is an alternative you can use called `rebase` that keeps the commit history linear by incorporating the origin commits into your local branch _first_, and then making your new (merged) commit on top of the most recent origin commit. Rebase can be used either with merge, or on its own. It can be helpful but there is a Golden Rule: never rebase a branch others can be using. An accessible and long discussion of when to rebase in a merge, with diagrams, is [here](https://hackernoon.com/git-merge-vs-rebase-whats-the-diff-76413c117333).
+The 'standard' Merge operation makes diamonds in repo commit history. There is an alternative you can use called `merge rebase` that keeps the commit history linear by incorporating the origin commits into your local branch _first_, and then making your new (merged) commit on top of the most recent origin commit. Rebase can be used either with merge, or on its own. It can be helpful but there is a Golden Rule: never rebase a branch others can be using. An accessible and long discussion of when to rebase in a merge, with diagrams, is [here](https://hackernoon.com/git-merge-vs-rebase-whats-the-diff-76413c117333).
 
-Another use of rebase is [cleaning up commit history](http://www.siliconfidential.com/articles/15-seconds-to-cleaner-git-history/).
 
-This can be used safely to remove local commits that mean little and push a single clean commit to origin. If you have multiple developers working on your project, with their own local copies of history, removing historic pushed commits will give you real pain. If however you are the only developer it is still OK. You can do it locally and use `git push -f` to force the local changes to origin.
 
 ### Revert, Checkout, and Reset
 
-These commands allow _time travelling_ in different ways.
+These commands allow _time travelling_ the commit history in different ways.
 
 #### How to specify a past commit on the current branch
 
@@ -387,15 +411,17 @@ Git checkout is dangerous in the sense that it loses uncommited file changes, an
 
 #### Reset
 
-Git reset makes _dangerous changes_ that cannot be undone and are only allowed for local commits - ones that have never been Pushed and therefore do not exist in any other repo.A Git **reset** (from command line `git reset --hard`) alters working files and the commit tree to go back to the last local commit (HEAD). Therefore it permanently loses any changes after this point. When given a previous commit `git reset --hard <past commit>` will reset current branch history and files to the given commit. The changes after the reset point are lost to the current branch, and since reset is only allowed for commits that have not been Pushed these changes are lost forever. (Technically they still can be retrieved from the commit SHA-1 hashes but this is a lot of work).
+Git reset makes _dangerous changes_ that cannot be undone and are only allowed for local commits - ones that have never been Pushed and therefore do not exist in any other repo.
 
-Typical use case of Git reset is to go back to the last commit losing unsaved changes `git reset --hard`. That is straightforward.
+When [used without a commit](#git-reset) `git reset --hard` abandons unsaved chnages in teh working tree.
 
-You may want to go back much further past a commit that has been pushed. You cannot do that with reset, but you can do it with checkout followed by create new branch, as above. Getting the master branch back to something like the earlier state would then be possible, but require a merge of the new branch with master.
+When given a previous commit `git reset --hard <past commit>` will reset current branch history and files to the given commit. The changes after the reset point are lost to the current branch, and since reset is only allowed for commits that have not been Pushed these changes are lost forever. (Technically they still can be retrieved from the commit SHA-1 hashes but this is a lot of work).
+
+You may want to go back much further, past a commit that has been pushed. You cannot do that with `reset`, but you can do it with `checkout` followed by `create new branch`, as above. Getting the master branch back to something like the earlier state would then be possible, but require a merge of the new branch with master.
 
 What if you just want a _new_ commit on master that roles files back to an exact historic state from say commit `HEAD~20`? That cannot be done with reset. You could (in principle) copy files manually from a `HEAD~20` based branch made by checkout). There is another solution to the problem. Apply revert 20 times to revert every one of the last 20 commits, starting with the most recent!
 
-Note the difference between reset and checkout. Both move back to a previous state but reset changes the current branch to that state whereas checkout leaves the current branch safe and creates a new detached HEAD branch to do the time-travelling. Thus checkout goes back in time and allows return to the present, whereas reset goes back in time with no return, and is limited in how far it can go.
+Note the difference between `reset` and `checkout`. Both move back to a previous state but `reset` changes the current branch to that state whereas `checkout` leaves the current branch safe and creates a new detached HEAD branch to do the time-travelling. Thus `checkout` goes back in time and allows return to the present, whereas `reset` goes back in time with no return, and is limited in how far it can go.
 
 #### Deleting all past commit history
 
@@ -418,18 +444,15 @@ In general `git reset` and `git checkout` commands have many options and can do 
 You may want to use some more powerful GUI than Github desktop to use these commands, however my advice would be not to do so. Github desktop is limited in functionality but easy to use and bomb-proof. I recommend it for most day to day use. For anything more advanced you need to be using git with a command line and understanding more what you are doing.
 
 
-
-
-
 ## Controlling which Files Git Tracks
 
 ### Git Staging Area
 
-Many Git guides will mention the _git staging area_. This guide does not consider this, nor is it necessary if you use Github desktop. The staging area is a confusing concept because it is often described as a 3rd set of files; in between the local tree and the commit tree. Using Git is described as a two-stage process of first staging and then committing files.
+Many Git guides will mention the _git staging area_. This guide does not consider this, nor is it necessary if you use Github desktop. The staging area is a confusing concept because it is often described as a 3rd set of files; in between the working tree and the commit tree. Using Git is then a two-stage process of first staging and then committing files.
 
-This is innaccurate. Git keeps track by name in an _index_ of which files you have previously recorded in Git. Files not recorded can be changed locally and are ignored by Git. The default workflow using Github desktop will record all files (the tick-boxes under `Changes`). This is what you want. When files or directories should not be recorded, for example binaries and temporary files, this is managed globally through a `.gitignore` file in your repo.
+This is innaccurate. Git keeps track by name in an _index_ of which files you want recorded in Git. Files not in the index are not saved by a Git commit. The default workflow using Github desktop will index all files (the tick-boxes under `Changes`). This is what you want. When files or directories should not be recorded, for example binaries and temporary files, this is managed globally through a `.gitignore` file in your repo.
 
-Advanced git users can make use of staging by unticking some files for a commit so that they are ignored. This is not recommended. Command line use of git requires two commands `git add` followed by `git commit` to track a new file, unless `git commit --all` is used which automatically does the add. The workflows here are all equivalent to using `git commit --all` all the time.
+Advanced git users can make use of staging by unticking some files for a specific commit so that they are ignored. This is not recommended. Command line use of git requires two commands `git add` followed by `git commit` to track a new file, unless `git commit --all` is used which automatically does the add. The workflows here are all equivalent to using `git commit --all` all the time.
 
 ### .gitignore
 
@@ -444,29 +467,13 @@ For more extended information on this topic see [notion.so](https://www.notion.s
 
 Ideally the repo commit history should have only significant commits, each with informative messages, making exploring past state code easy. In practice this gets polluted by a whole load of bug fixes, afterthoughts, etc.
 
-Two useful commands for retrospectively cleaning things up are `mend` and `rebase`.
-
-### Git Amend
-
-Suppose you have made a _local_ commit and suddenly realise you forgot something. Instead of doing another commit, you can do a `commit --amend` that will change the most recent commit adding your new changes to it.
-
-This is safe and a great idea to reduce the number of useless commits. One restriction is that it will not work once you have Pushed a commit outside your local repo.
-
-You can use Git command line tools, or Git GUI to implement `git --amend`. Git GUI is similar to GitHub GUI but not recommended for normal use because it exposes the confusing _staging area_. However it allows a larger set of advanced git commands with some GUI help. 
-
-To use `Git GUI` to make an amend:
-
-* start Git GUI and open your local repo
-* click in Git GUI
-  * Stage changed
-  * Amend Last Commit
-  * Commit
-
-`Git --amend` is recommended.
+Two useful commands for retrospectively cleaning things up are `amend` (described [above](git-amend) and `rebase`.
 
 ### Git Rebase
 
-If you want to remove multiple local commits `git rebase` can do this. Again, do not do this after pushing commits to a central repo. There is in Git no satisfactory way to clean up globally pushed and shared commits. It is worth understanding why that cannot be allowed. Git must work properly whatever local clones do: and they may use any historic commit to merge etc. If commits can be deleted in one clone there can be no guarantee that the same commit is not used by another clone. Therefore removing a historic commit is inherently unsafe if the commit is not provably only local. Of course deleting the effect of a commit, or rolling back to a historic commit state, is all allowed by making a new commit with the changes. That simply extends the commit history and is safe.
+We looked above at `merge rebase`. A distinct use of rebase (and a different command) is in [cleaning up commit history](http://www.siliconfidential.com/articles/15-seconds-to-cleaner-git-history/).
+
+This can be used safely to remove local commits that mean little and push a single clean commit to origin. If you have multiple developers working on your project, with their own local copies of history, removing historic pushed commits will give you real pain. If however you are the only developer it is still OK. You can do it locally and use `git push -f` to force the local changes to origin.
 
 The preferred way to use rebase is as follows:
 
@@ -476,7 +483,7 @@ An editor will open up with a list of all the ommits to be rebased and instructi
 * Exit the editor
 * Rebase will process the edited file and finish.
 
-One radical solution (to remove pushed history) is to copy the repo to a new repo leaving out the earlier part of the history using a [graft](https://git.wiki.kernel.org/index.php/GraftPoint). That is not supported here. However, see [the alternative strategy](deleting-all-past-history) creating a new orphan branch and renaming it master. 
+One radical solution (to remove pushed history) is to copy the repo to a new repo leaving out the earlier part of the history using a [graft](https://git.wiki.kernel.org/index.php/GraftPoint). That is not supported here. Also see [the alternative strategy](deleting-all-past-history) creating a new orphan branch and renaming it master that deletes all history.
 
 ## Glossary
 
