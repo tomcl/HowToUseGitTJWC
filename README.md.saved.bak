@@ -317,7 +317,7 @@ This is no different from cloning except that your copy of the repo has a differ
 
 ### Git Amend
 
-Suppose you have made a _local_ commit and suddenly realise you forgot something. Instead of doing another commit, you can do a `commit --amend` that will change the most recent commit adding your new changes to it.
+Suppose you have made a _local_ commit and suddenly realise you forgot something. Instead of doing another commit, you can do a `commit --amend --all` that will change the most recent commit adding your new changes to it.
 
 This is safe and a great idea to reduce the number of useless commits. One restriction is that it will not work once you have Pushed a commit outside your local repo.
 
@@ -330,6 +330,8 @@ To use `Git GUI` to make an amend:
   * Stage changed
   * Amend Last Commit
   * Commit
+
+Alternatively, start a command line on the working file directory and do `git --amend --all`. Note that this will not add commit created files, so is not quite what you would expect.
 
 `Git --amend` is recommended.
 
