@@ -251,19 +251,19 @@ Git uses these versions as described above to synchronise code through Push or P
 
 A repo (remote or local) can also contain any number of named branches. Each branch has its own separate commit history HEAD. In the above examples only the **master branch** is used. New branches can be created, typically for new features, or to allow independent code development without having to pull in remote changes. When you operate on code this is always in a specific branch. Creating your own private branch and using this means there is no problem with conflicts - you are the only person changing that branch. However merging the branch back into the master copy (if this is needed) requires all conflicts - typically a lot - to be resolved.
 
-Therefore good practice when using branches that you expect _eventually_ to be merged back is to update your branch regularly with the latest master commits. That way you are not likely to get conf;licts with other changes.
+Therefore good practice when using branches that you expect _eventually_ to be merged back is to update your branch regularly with the latest master commits. That way you are not likely to get conflicts with other changes.
 
 To create a named branch that is a copy of the current master:
 
 * In Github Desktop `Branch-> New Branch`. Give your name branch a nmae e.g `mybranch`. After creating the branch Github desktop will switch to tracking the new branch. You can change this at any time. 
 
-The new branch can be fetched or pulled from the origin just like master. Unlike master, it is not likely that anyone else will make Commits to it - although anyone with write access to the origin repo could do so. Branches allow each developer to have separate code on top of a common base, with the ability to merge changes back to the common code when they reach a suiatble state.
+The new branch can be fetched or pulled from the origin just like master. Unlike master, it is not likely that anyone else will make Commits to it - although anyone with write access to the origin repo could do so. Branches allow each developer to have separate code on top of a common base, with the ability to merge changes back to the common code when they reach a suitable state.
 
 ## Workflows
 
 ### Centralised Workflow
 
-This is the workflow discussed above. Developer Jane clones the origin cloud repo and makes commits locally. Whenever satisfied the project is in a working state Jane pushes them to the origin. Changes in origin from other developers get pulled by Jane.
+This is the workflow discussed above. Developer Jane clones the unique origin cloud repo and makes commits locally. Whenever satisfied the project is in a working state Jane pushes them to the origin. Changes in origin from other developers get pulled by Jane.
 
 * Never push to cloud until local code passes tests
 * Fetch/Pull often to make sure new code works with most recent commit of origin.
@@ -288,7 +288,7 @@ Alternative method for merging Jane's Branch to the origin master:
 * Jane merges her branch locally into her master
 * Jane pushes her master to origin
 
-**Note about branches**. It is very convenient to use branches when refactoring code, because locally you can at any time switch between master (before refactoring) and the current version you are refactoring. That deals with the _help I can't remember what this was before I mucked it up_ problem. you can do this without branches - by reverting to a previous commit - but this is more work.
+**Note about branches**. It is very convenient to use branches when refactoring code, because locally you can at any time switch between master (before refactoring) and the current version you are refactoring. That deals with the _help I can't remember what this was before I mucked it up_ problem. 
 
 See also Atlassian [description](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) on this workflow.
 
@@ -302,7 +302,7 @@ Why does this make things more complex? In order for your commits to be Pulled t
 
 **local repo** ---origin (clone)---> **your github repo** ---origin (fork)---> **open source github repo**
 
-The recommended way to do this is by first **Forking** the open source repo, creating a new branch as your own Github repo. 
+The recommended way to do this is by first **Forking** the open source repo, to your Github account. 
 
 * Navigate to the open source github home page. Click the top righthand **Fork** button and create your own github fork of the project.
 
