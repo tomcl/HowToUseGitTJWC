@@ -32,13 +32,13 @@
 
 
 
-Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational while also giving insight. Read it if you know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands. Broadly speaking, you should read it linearly: simple operations and concepts are explained first and the later parts are not needed for normal git usage.
+Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational while also giving insight and explaining deeper issues. Read it if you know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands. Broadly speaking, you should read it linearly: Typical operations and concepts are explained first, then typical workflows are explained. The later parts are not needed for normal git usage.
 
-If you would like a more extensive guide to git I recommend the excellent Atlassian [set of guides](https://www.atlassian.com/git/tutorials). After reading this guide, before starting a collaborative git project, make sure that you read the workflows and particularly [avoiding disasters](#avoiding-disasters).
+Before starting a collaborative git project, make sure that you read the workflows and particularly [avoiding disasters](#avoiding-disasters). If you would like a more extensive guide to git I recommend the excellent Atlassian [set of guides](https://www.atlassian.com/git/tutorials). 
 
-Git can be used via the command line (best for complex operations) or one of the many GUIs. This guide mostly assumes you use Github desktop which is very limited but has the merit of extreme simplicity and smooth operation for typical use cases. See the [Tools](#tools) section for information on other tools, and if you want to do complex git operations try a good complex GUI: it will help.
+Git can be used via the command line (best for complex operations) or one of the many GUIs. This guide mostly assumes you use Github desktop which is very limited but has the merit of extreme simplicity and smooth operation for typical use cases. See the [Tools](#tools) section for information on other tools, and if you want to do complex git operations try a good complex GUI: it will help, but only when you understand how git works (perhaps by reading this guide).
 
-The guide here assumes the use of Github to host cloud repositories but applies equally well to any other cloud provider, e.g. [Atlassian](https://www.atlassian.com/software/bitbucket).
+This guide assumes the use of Github to host cloud repositories but applies equally well to any other cloud provider, e.g. [Atlassian](https://www.atlassian.com/software/bitbucket).
 
 
 
@@ -390,12 +390,12 @@ These commands allow _time travelling_ the commit history in different ways.
 
 #### How to specify a past commit on the current branch
 
-Git revert, checkout, and reset all operate on some commit in the command history and default to the most recent one. Revert can be used from Git Desktop so it is [easy](#revert) to specify the commit it operates on. For command line operation (reset and checkout) the commit can be specified as the 7 digit commit hash `git reset --hard 5eb790b`. You can find this from any Git history viewer. In Git Desktop:
+Git revert, checkout, and reset all operate on some commit in the command history and default to the most recent one. Revert can be used from Github Desktop so it is [easy](#revert) to specify the commit it operates on. For command line operation (reset and checkout) the commit can be specified as the 7 digit commit hash `git reset --hard 5eb790b`. You can find this from any Git history viewer. In Github Desktop:
 
 
 
 * Go to History tab. click on the commit you want.
-* Look for 7 digit string at top of Git Desktop above the list of changed files.
+* Look for 7 digit string at top of Github Desktop above the list of changed files.
 
 There are other ways to specify commit, e.g. `HEAD~n` means the commit n commits away from the current HEAD (this may not be unique, if there have been merges, in which case the 1st of the matching commits is used). In a linear commit history `HEAD~n` is an unambiguous way to select a past commit.
 
@@ -415,7 +415,7 @@ For example:
 
 #### Revert
 
-A Git **revert** (from Github desktop -> history tab -> _select commit to revert_ -> revert) adds a new commit to undo _just one previous commit_. If applied to the most recent (HEAD) commit it undoes what you last committed. Otherwise it selectively undoes the changes in the reverted commit while leaving all subsequent changes. Revert adds a new commit to the commit history and changes the working files. It does _not_ remove the reverted commit from the commit history.
+A Git **revert** (from Github Desktop -> history tab -> _select commit to revert_ -> revert) adds a new commit to undo _just one previous commit_. If applied to the most recent (HEAD) commit it undoes what you last committed. Otherwise it selectively undoes the changes in the reverted commit while leaving all subsequent changes. Revert adds a new commit to the commit history and changes the working files. It does _not_ remove the reverted commit from the commit history.
 
 If the reverted changes cannot be disambiguated from some other change, for example because the same line of a file has been altered in the two changes, then a collision file is created just as for a failing merge, instead of a commit. This can be edited manually and then committed.
 
@@ -480,7 +480,7 @@ git gc --aggressive --prune=all     # remove the old files
 
 In general `git reset` and `git checkout` commands have many options and can do other things: beware of this when using them since it is easy to get them wrong. Above is the case where they operate on the current (active) branch to roll back commits.
 
-You may want to use some more powerful GUI than Github desktop to use these commands, however my advice would be not to do so. Github desktop is limited in functionality but easy to use and bomb-proof. I recommend it for most day to day use. For anything more advanced you need to be using git with a command line and understanding more what you are doing.
+You may want to use some more powerful GUI than Github desktop to use these commands, however my advice would be not to do so. Github desktop is limited in functionality but easy to use and bomb-proof. I recommend it for most day to day use. For anything more advanced you need to be using git with a command line, or a sophisticated GUI like [SmartGit](#tools),  and understanding what you are doing.
 
 
 ## Controlling which Files Git Tracks
@@ -497,7 +497,7 @@ Advanced git users can make use of staging by unticking some files for a specifi
 
 Git local files can optionally include a visible text file `./.gitignore`. This specifies what files extensions are excluded from Git. Directories and subdirectories can also be excluded. A programming project will often use a (large) `.gitignore` tuned to the specific platform and language used so that only relevant source files, and not loader and compiler generated binaries, are recorded in Git. This is important when binay sizes are large, and good practice anyway. See the [git documentation](https://git-scm.com/docs/gitignore) or add a `.gitignore` from a skeleton project.
 
-WARNING. The correct .gitignore for a long-running project is essential, since otherwise multiple copies of binaries will end up taking up a lot of storage. This can be retrofitted with care, and historic references to binaries deleted retrospectively, but that is a big proceeding and one that will need cooperation of all dveelopers using the repository.
+WARNING. The correct .gitignore for a long-running project is important, since otherwise multiple copies of binaries will end up taking up a lot of storage. 
 
 
 
@@ -530,9 +530,9 @@ One radical solution (to remove pushed history) is to copy the repo to a new rep
 
 In the table below repo B has `origin` repo A. Operations are done by B. We have:
 
-* B working files (BF)
-* B Git Files (BG)
-* A Git Files (A)
+* B working tree (BW)
+* B commit tree (BG)
+* A commit tree (A)
 
 BG and AG represent logically the same (master) branch so over time will stay in sync, however temporarily one or other can be ahead with commits not yet propagated.
 
@@ -540,13 +540,13 @@ We don't need to consider A working files (for example, A could be a cloud repo 
 
 | Term| Meaning |What <br> changes|
 |------------|-----------------|-----|
-| Fetch | Copy new A commits to BG | BG |
-| Automatic Merge | Copy new A commits to BF  | BF |
-| Merge (with conflict) | Update BF with A and conflict markers | BF |
-| Resolve conflict | Delete conflict markers, <br> manually correcting conflicted lines | BF |
-| Commit (after Merge conflict) | Update BG with BF | BG |
-| Pull | Fetch then Merge | BG and BF |
-| Automatic Push | Copy new BG commits to A <br> Will fail if A has new commits | A |
+| Fetch | Copy new A commits to BC | BC |
+| Automatic Merge | Copy new A commits to BW  | BW |
+| Merge (with conflict) | Update BF with A and conflict markers | BW |
+| Resolve conflict | Delete conflict markers, <br> manually correcting conflicted lines | BW |
+| Commit (after Merge conflict) | Update BC with BW | BC |
+| Pull | Fetch then Merge | BC and BW |
+| Automatic Push | Copy new BC commits to A <br> Will fail if A has new commits | A |
 | Push (with conflict) | Fails | No change: see note below |
 | Staging area | Terminology not used here, see [below](#git-staging-area) | n/a |
 | origin | repo to which a cloned or forked repo is connected | n/a |
@@ -554,9 +554,9 @@ We don't need to consider A working files (for example, A could be a cloud repo 
 | Commit tree | copy of all local files from last Commit stored by Git |
 | HEAD | The HEAD of a branch points to the most recent commit in a branch | n/a |
 | Blob | Git's name for a file stored in a repository | n/a |
-| SHA-1 hash | Git is based on hash lookup using data indexed uniquely by SHA-1 fingerprints| n/a |
+| SHA-1 hash | Git is based on hash lookup using data indexed uniquely by SHA-1 fingerprints. The first 7 digits of the hash are also used as a short reference to a specific commit.| n/a |
 
-Push conflicts are caused by commits to A that cannot be automatically be resolved with the Pushed B commits (analogous to a Merge conflict). The solution is to resolve the conflict manually as a Merge conflict on B:
+Push conflicts are caused by commits to A that cannot be automatically be resolved with the Pushed B commits (analogous to a remote Merge conflict). The solution is to resolve the conflict manually as a local Merge conflict on B, and _then_ Push:
 
 * Fetch
 * Merge (with conflict)
