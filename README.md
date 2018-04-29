@@ -358,7 +358,7 @@ This is safe and a great idea to reduce the number of useless commits. One restr
 * Commit
 * Push
 
-You can use Git command line tools, or Git GUI to implement `git --amend`. Git GUI is similar to GitHub GUI but not recommended for normal use because it exposes the confusing _staging area_. However it allows a larger set of advanced git commands with some GUI help. 
+You can use Git command line tools, or Git GUI to implement `git commit --amend --all`. Git GUI is similar to GitHub Desktop but not recommended for normal use because it exposes the confusing _staging area_. However it allows a larger set of advanced git commands with some GUI help. 
 
 To use `Git GUI` to make an amend:
 
@@ -368,11 +368,11 @@ To use `Git GUI` to make an amend:
   * Amend Last Commit
   * Commit
 
-`Git --amend` is recommended.
+`git commit --amend --all` is recommended.
 
 ### Git Reset
 
-Sometimes you want to abandon unsaved changes in working files and return to the last commit. The command here is `git reset --hard` which will need to be executed from a command line. This command permanently deletes any unsaved changes, so be careful.
+Sometimes you want to abandon unsaved changes in working files and return to the last commit. The command here is `git reset --hard --all` which will need to be executed from a command line. This command permanently deletes any unsaved changes, so be careful.
 
 ## Advanced Git Methods
 
