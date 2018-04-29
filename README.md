@@ -405,7 +405,7 @@ For example:
 
 | Commit | Notation | SHA1 |
 |----------|------|----|
-| C | `HEAD` | `7facb601` |
+| C | `HEAD` | `7facb60` |
 | B | `HEAD~1` | `ab35c21` |
 | A | `HEAD~2` | `9f2aa3d` |
 
