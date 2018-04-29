@@ -404,7 +404,7 @@ For example:
 * Most recent commit is C, and this is also the HEAD of the current branch.
 
 | Commit | Notation | SHA1 |
-|----------|------|
+|----------|------|----|
 | C | `HEAD` | `7facb601` |
 | B | `HEAD~1` | `ab35c21` |
 | A | `HEAD~2` | `9f2aa3d` |
