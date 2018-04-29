@@ -75,37 +75,37 @@ This first section uses only the Git _master_ branch: no more is needed to exerc
 
 You have now set up a **local repo** that is a cloned copy of the remote github repository and uses that as its git origin:
 
-**C:/users/myid/github/myrepo**  ---origin---> **https://github.com/myrepo**
+**C:/users/myid/github/myrepo**  ---origin---> **https://github.com/mygithubid/myrepo**
 
 The local repository sets up in your filing system a downloaded copy of the origin repository files which can changed arbitrarily by you. However it contains - invisibly under the hidden `.git` subdirectory - all the necessary git tracking info. It is this info that makes the local file copy itself a git repository.
 
 In fact the local repository you have created consists of TWO LOCAL COPIES of the files:
 
-`C:/users/myid/github/myrepo` (the copy you can see)
+`C:/users/myid/github/myrepo` (the **working tree** copy you can see)
 `C:/users/myid/github/myrepo/.git` (a hidden *commit tree* copy processed only by git)
 
-The hidden copy is not human editable and must never be touched by you directly. Either command line git tools or (easier for most simple tasks, and used in this Tutorial) Github Desktop will operate on the hidden copy.
+The commit tree is not human editable and must never be touched by you directly. Either command line git tools or (easier for most simple tasks, and used in this Tutorial) Github Desktop will operate on it.
 
-The hidden local copy of the project files is stored in a processed form by Git. Initially both it and your visible files will be identical to the remote repo. When you develop new code you change the local files, but the hidden copy is unchanged until you use git commands to record your changes.
+Initially both the commit tree and your visible files will be identical to the remote repo. When you develop new code you change the local files, but the commit tree is unchanged until you use git commands to record your changes.
 
 <p align="center">
 <img src="Github%20workflow.jpg"> </img>
 </p>
 
-The picture shows how changes are propagated between the central Github repository that you created, and your local files: the *working tree*). For now ignore the red arrows, and focus on the blue arrows that represent typical workflow.
+The picture shows how changes are propagated between the central Github repository that you created, and your local _working tree_ files. For now ignore the red arrows, and focus on the blue arrows that represent typical workflow. For simplicity I've separated the two workflow for moving data to and from the central repository into the left and right side of the picture.
 
 Saving your changes - once you have useful new code - is a two-stage process as shown in the left-hand side of the picture:
 
-1. **Commit** to the local repository. Your visible file changes are saved to the hidden (github tracked) files, with a Git tracking message. Git preserves every commit and can backtrack to any point in its history.
-2. **Push** the local repository to the remote repository. This propagates the changes, and the newly created commit checkpoint, to the remote repo where they can be picked up by anyone else.
+1. **Commit** to the local repository. Your visible file changes are saved to the commit tree files, with a Git tracking message. Git preserves every commit as a self-contained snapshot and can backtrack to any point in its history.
+2. **Push** the local repository to the remote repository. This propagates  the newly created commit snapshot to the remote repo where it can be picked up by anyone else.
 
 * Keep Github desktop open on your local repository `myrepo` so you can conveniently run git commands from the GUI. It will also periodically Fetch origin/master which is helpful though not necessary.
 * Change some local files: e.g. add something to the README.
 * View your local repository in Github DeskTop under the `Changes` tab as in the picture below. 
-  * The example shows this as I am writing this tutorial
-  * Each file changed from the git copy is listed in the LH panel with a tick-box to say whether it will be recorded. By default all tick-boxes are ticked and you should normally keep this.
-  * Click on a text file file to view the changes in the RH panel. Changed text is red.
-  * Each listed file it is shown as new (green icon) or changed (yellow icon).
+  * The picture shows the changes tab as I am writing this tutorial
+  * Each file changed from the commit tree copy is listed in the LH panel with a tick-box to say whether it will be recorded. By default all tick-boxes are ticked and you should keep this. See [disasters](#avoiding-disasters) for the dangers in unticking items.
+  * Click on a LH panel text file to view the changes in the RH panel. Changed text is red.
+  * Each listed file is shown as new (green icon) or changed (yellow icon).
   * Also shown in the Github desktop black toolbar are the current repository name, the current _branch_ name, and the _git action button_.
 
 <p align="center">
@@ -125,11 +125,11 @@ The Commit DOES NOT UPDATE THE REMOTE REPO, but saves your changes in the hidden
 
 Incorporating changes that other users have pushed to the origin repo is the opposite process (right-hand side of the picture). 
 
-* Before you start make sure all local file changes are Committed and also Pushed.
+* Before you start make sure all local file changes are Committed and also Pushed as above.
 
 This is not necessary, and in general not always possible, but it simplifies the walk-through.
 
-* Change the README file in the origin repo using the GitHub edit commands.
+* Change the README file in the origin repo using the GitHub edit command.
 * **Fetch** the origin repo using the Github action button. 
 * **Pull** the origin repo using the action button again. Fetch and Merge together are implemented as **Pull**.
 
@@ -147,7 +147,7 @@ The key to Git's operation is that although shared repositories can have multipl
 
 One consequence of this is that when clones of a repository reside on different computers the only difference can be incompleteness. A new commit added to clone A will not propagate to clone B until it is Fetched by B or Pushed by A (assuming A ---origin---> B).
 
-All Git repos contain the same information (when up-to-date) so Git is peer-to-peer. It is often used with a single central cloud repository and others (local or cloud) connected to this via ---origin--> links. But this is for convenience only - and the links can be broken and remade differently if you wish. Any one of the repos alpha - epsilon in the picture contains enough info to reconsitute them all - except for the latest unsynchronised commits. Also, although alpha is the root of the tree of origin connections this is not significant for operation.
+All Git repos contain the same information (when up-to-date) so Git is peer-to-peer. It is often used with a single central cloud repository and others (local or cloud) connected to this via ---origin--> links. But this is for convenience only - and the links can be broken and remade differently if you wish. Any one of the repositories _alpha_ - _epsilon_ in the picture contains enough information to reconsitute them all - except for a few local unsynchronised commits. Also, although _alpha_ is the root of the tree of origin connections this is not significant for operation.
 
 <p align="center">
 <img src="repos-origins.jpg"> </img>
@@ -156,7 +156,7 @@ All Git repos contain the same information (when up-to-date) so Git is peer-to-p
 
 ### Merging: How Git manages concurrent changes
 
-Suppose a central repository master branch initially has most recent Commit _C_, and Commit history: _C_ --> _B_ --> _A_. The arrows go from commits to their parents (the previous commit to which they link in the branch history). _C_ is the HEAD of the central commit history.
+Suppose the central repository master branch initially has most recent Commit _C_, and Commit history: _C_ --> _B_ --> _A_. The arrows go from commits to their parents (the previous commit to which they link in the branch history). _C_ is the HEAD of the central commit history.
 
 Two team members, David and Eddie, make respective Commits _D_ and _E_ on their local cloned copies with origin the central repo:
 
@@ -167,7 +167,7 @@ Two team members, David and Eddie, make respective Commits _D_ and _E_ on their 
 |David local master | _D_ --> _C_ --> _B_ --> _A_ |
 |Eddie local master | _E_ --> _C_ --> _B_ --> _A_ |
 
-The first one of David and Eddie who Pushes to origin will succeed without problem. For example after Eddie Push we have:
+The first one of David and Eddie who Pushes will succeed without problem. For example after Eddie Push we have:
 
 | repo  |  commit history  |
 |-----|----:|
@@ -176,29 +176,30 @@ The first one of David and Eddie who Pushes to origin will succeed without probl
 |Eddie local master | _E_ --> _C_ --> _B_ --> _A_ |
 
 
-David now cannot Push to central, because that would lead to an origin Commit history with two HEADs, _D_ and _E_. The (usual) solution is to reconcile the changes from _D_ and _E_ in a **Merge** operation, and Push the result. This is all done by David, locally, as follows:
+David now cannot Push, because that would lead to an origin Commit history with two HEADs, _D_ and _E_. The (usual) solution is to reconcile the changes from _D_ and _E_ in a **Merge** operation, and Push the result. This is all done by David, locally, as follows:
 
 * Commit _D_ (already done by David locally)
 * Fetch central (David's local copy is now aware of Eddie's _E_ commit). NB Fetch is normally Done automatically by Pull.
-* Pull central. This merges _E_ with _D_ locally - resolving collisions as necessary - creating a new Commit _F_.
-* Test _F_ to check it still works
-* Push to central: both _E_ and _F_ will be pushed to the central repo creating a diamond-shaped commit history with HEAD _F_ as below. The commit is now allowed because _F_ is a single common HEAD. Note that in Git, because of merges, a commit such as _F_ can have more than one parent.
+* Pull central. This merges _E_ with _D_ in David's local working tree - resolving collisions as necessary - also creating a new Commit _F_ in David's commit tree.
+* David tests _F_ to check it still works.
+* David Pushes.  Both _E_ and _F_ will be pushed to the central repository creating a diamond-shaped commit history with HEAD _F_ as below. The commit _F_ is allowed because _F_ is a single common HEAD to the master branch. Note that in Git, because of merges, a commit such as _F_ can have more than one parent, in this case _D_ and _E_.
 
 <p align="center">
 <img src="gw2.jpg"> </img>
 </p>
 
 
-This picture leaves out one important detail: the distinction between the HEAD of the local *master* branch of the repo - set to the merge result _F_ - and the *working tree of files* visible to David. The merge operation in the Pull updates local files so that they are the the same as _F_.
+This picture leaves out one important detail: the distinction between the HEAD of the local *master* branch in the repository commit tree - set to the merge result _F_ - and the *working tree of files* visible to David. The merge operation in the Pull updates local files so that they are the the same as _F_ so in this case there is no difference.
 
 ### When Automatic Merge Fails
 
-Most of the time when using Git merges happen invisibly, and automatically. Updating local files with new origin/master commits these are first fetched, updating the local origin/master branch, and then automatically merged, updating local files. The two operations are done together with a **Pull** command.
+Most of the time when using Git merges happen invisibly, and automatically, as above. Updating local files with new origin/master commits these are first fetched, updating the commit tree origin/master branch, and then automatically merged, updating local working tree. The two operations are done together with a **Pull** command.
 
-There are two cases where automatic merging is impossible:
+There are three cases where automatic merging is impossible:
 
 1. A file is concurrently deleted and modified
 2. The same line of a file is concurrently changed
+3. Adjacent lines of a file are changed enough that git cannot work out how lines match.
 
 #### Merge Conflict Walkthrough
 
@@ -208,11 +209,11 @@ There are two cases where automatic merging is impossible:
 The fox jumped over the dog
 ```
 
-* Commit it locally.
+* Commit it.
 * Push it to origin, so it has identical copies locally and in origin repo.
-* Now make concurrent changes, adding `lazy` before `fox` in local files with a text editor, and `quick` before `dog` in origin files (Github web interface).
+* Make concurrent changes, adding `lazy` before `fox` in local working tree with a text editor, and `quick` before `dog` in origin files (Github web interface).
 * Commit the local change. The origin change, made by editing a file under github, was committed when it was saved.
-* Now try to synchronise the two repos with a local Fetch origin and then Pull origin. The Pull will fail, generating a local merge conflict file `test.txt`:
+* Now try to synchronise the two repositories with a local Fetch and then Pull. The Pull will fail, generating a local _merge conflict_ file `test.txt`:
 
 ```
 <<<<<<< HEAD
@@ -223,11 +224,11 @@ The fox jumped over the quick dog
 
 ```
 
-Git creates a local file like this for each working tree file with such a conflict. This contains its normal contents with markers identifying conflicting lines in the diff between the two commits and an SHA-1 stamp to identify the commit being merged. 
+Git creates a local file like this for each working tree file with such a conflict. Each merge conflict file contains its normal contents with markers identifying conflicting lines in the diff between the two commits and an SHA-1 stamp to identify the commit being merged. 
 
-A set of working tree files with conflict(s) are like those generated in the  _F_ commit, but unfinished because not yet known consistent with both _D_ and _E_. Call them _F'_.  _F'_ is known as a _merge conflict_.
+A set of working tree files with conflict(s) are like those generated automatically in the  _F_ commit, but unfinished (and not yet committable) because not yet known consistent with both _D_ and _E_. Call them _F'_.  _F'_ is known as a _merge conflict_.
 
-Merge conflicts can be _resolved_ locally by editing the local working files containing the conflict markers - deleting the markers - and keeping the desired edits. In this case we change the working file tree to _F''_ by manually changing the local `test.txt` to incorporate both _E_ and _D_ changes, and deleting the conflict markers:
+Merge conflicts can be _resolved_ locally by editing the all local working files containing the conflict markers - deleting the markers - and keeping the desired edits. In this case we change the working file tree to _F''_ by manually changing the local `test.txt` to incorporate both _E_ and _D_ changes, and deleting the conflict markers:
 
 
 ```
@@ -235,14 +236,14 @@ The lazy fox jumped over the quick dog
 ```
 
 
-After that, a merge Commit will add _F''_ to the commit history with both _E_ and _D_ as immediate ancestors as in the automatic case. A Push after this will succeed and propagate the updated file to origin.
+After that, a Merge Commit will add _F''_ to the commit history with both _E_ and _D_ as immediate ancestors as in the automatic case. A Push after this will succeed and propagate the updated file to origin. Github Desktop will do both of these from the commit and action buttons respectively.
 
-For more info see the [github information](https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/)
+For more details see the [github information](https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/)
 
 
 ### Branches
 
-A git **branch** represents a complete history of the working file tree as a sequence of commits each containing a snapshot of file contents. The branch is identified by its HEAD commit, this links to the complete commit History. Typically a project's code will be on the _master_ branch. Any number of named other branches may coexist with the master branch. All of the Git operations you have learnt can be done, independently, on any branch. Changing a branch has no effect on any other branch, all branches are independent.
+A git **branch** represents a complete history of the working file tree as a sequence of commits each containing a snapshot of file contents, store in the commit tree. The branch is identified by its HEAD commit, this links to the complete commit history. Typically a project's code will be on the _master_ branch. Any number of named other branches may coexist with the master branch. All of the Git operations you have learnt can be done, independently, on any branch. Changing a branch has no effect on any other branch, all branches are independent, although they may share the oldest part of their commit histories.
 
 #### Implicit Branches
 
@@ -252,19 +253,19 @@ Thus far all work is done on the master (main) branch of the repo. However there
 * The local `origin/master`. This must be must be consistent with `origin/master`, but may have fewer commits, if a central commit has been added after the most recent Fetch.
 * The local repo `master` branch. This may have local commits not yet Pushed to origin/master.
 
-Git uses these versions as described above to synchronise code through Push or Pull and Merge. In the local repo `master` and `origin\master` are different branches, although only used internally by Git.
+Git uses these versions as described above to synchronise code through Push or Pull and Merge. In the local repo `master` and `origin\master` are managed internally by git like different branches with distinct HEADs. However, push and fetch will synchronise them to the most uptodate master branch contents.
 
 #### Explicit Branches
 
-A repo (remote or local) can also contain any number of named branches. Each branch has its own separate commit history HEAD. In the above examples only the **master branch** is used. New branches can be created, typically for new features, or to allow independent code development without having to pull in remote changes. When you operate on code this is always in a specific branch. Creating your own private branch and using this means there is no problem with conflicts - you are the only person changing that branch. However merging the branch back into the master copy (if this is needed) requires all conflicts - typically a lot - to be resolved.
+A repo (remote or local) can also contain any number of named branches. Each branch has its own separate commit history HEAD. In the above examples only the **master branch** is used. New branches can be created, typically for new features, or to allow independent code development without having to pull in remote changes. When you operate on code this is always in a specific branch. Creating your own private branch and using this means there is no problem with conflicts - you are the only person changing that branch. However merging the branch back into the master copy (if this is needed) requires all conflicts - possibly a lot - to be resolved.
 
-Therefore good practice when using branches that you expect _eventually_ to be merged back is to update your branch regularly with the latest master commits. That way you are not likely to get conflicts with other changes.
+Therefore good practice when using branches that you expect _eventually_ to be merged back is to update your branch regularly with the latest master commits using pull (and possibly merge). That way you are not likely to get conflicts with other changes. Note that even though you are merging master commits onto your branch, your branch will still diverge from the master branch due to your own commits which are not seen by the master.
 
 To create a named branch that is a copy of the current master:
 
-* In Github Desktop `Branch-> New Branch`. Give your name branch a name e.g `mybranch`. After creating the branch Github desktop will switch to tracking the new branch. You can change this at any time. 
+* In Github Desktop `Branch-> New Branch`. Give your name branch a name e.g `mybranch`. After creating the branch Github desktop will switch to tracking the new branch. You can change this at any time from the top toolbar. 
 
-The new branch can be fetched or pulled from the origin just like master. Unlike master, it is not likely that anyone else will make Commits to it - although anyone with write access to the origin repo could do so. Branches allow each developer to have separate code on top of a common base, with the ability to merge changes back to the common code when they reach a suitable state.
+The new branch can be fetched or pulled from the origin just like master. Unlike master, it is not likely that anyone else will make commits to it - although anyone with write access to the origin repo could do so. Branches allow each developer to have separate code on top of a common base, with the ability to merge changes back to the common code when/if they reach a suitable state.
 
 ## Workflows
 
@@ -279,16 +280,16 @@ Atlassian has a good [detailed description](https://www.atlassian.com/git/tutori
 
 ### Feature Branch Workflow
 
-This is as above, but the local work is on a branch of the origin repo used only by Jane. Pushing to the origin can be done at any time without affecting the master production code. When the new code has reached a good state a Merge can be done as follows
+This is as above, but the local work is on a branch of the origin repo used only by developer Jane. Pushing to the origin can be done at any time without affecting the master production code. When the new code has reached a good state a Merge can be done by an any developer as follows:
 
-* Push Branch to origin
-* Go to origin (Github) repo
+* (Jane) pushes Branch to origin
+* (anyone) Go to origin (Github) repo
 * Note the option on Github repo to Pull Jane's branch
 * Submit a Pull Request & complete the Merge on Github
 * Now origin master has been updated with all the changes from Jane's branch and the branch is identical to the master copy.
-* Now the branch can be deleted, or kept and used for more temporarily private changes.
+* The branch can be deleted, or kept and used by Jane for another set of private changes.
 
-Alternative method for merging Jane's Branch to the origin master:
+Alternative method for merging Jane's Branch to the origin master, if Jane is allowed to change the master herself:
 
 * Jane Fetches origin
 * Jane goes back to master branch on her local repo
@@ -303,21 +304,21 @@ See also Atlassian [description](https://www.atlassian.com/git/tutorials/compari
 
 As above but fork the origin cloud repo to your own cloud Github repo. Then clone this to the local (working) repo. That allows each collaborator to have their own private cloud repo for their branch and is commonly used for open source projects. See also Atlassian [description](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow).
 
-This workflow is typically used contributing to open source projects. It is more complex than contributing to a team project because contributors do not have write access to the central repo, nor are necessarily trusted. Therefore they cannot **Push** their commits. Instead one of the repo core contributer team (who do have write access) will **Pull** your commits - checking that they are OK.
+This workflow is typically used contributing to open source projects. It is more complex than contributing to a team project because contributors do not have write access to the central repo, nor are necessarily trusted. Therefore they cannot **Push** their commits. Instead one of the repo core contributer team (who do have write access) will **Pull** the commits - checking that they are OK. Developers therefore make **pull requests** in order (effectively) to push - which terminology is confusing when you first meet it.
 
 Why does this make things more complex? In order for your commits to be Pulled they must reside in a cloud-based repository - not your local working copy. Therefore one extra clone of the repository must be made by you as illustrated below.
 
 **local repo** ---origin (clone)---> **your github repo** ---origin (fork)---> **open source github repo**
 
-The recommended way to do this is by first **Forking** the open source repo, to your Github account. 
+To implement forking workflow: first **Fork** the open source repo, to your Github account. 
 
-* Navigate to the open source github home page. Click the top righthand **Fork** button and create your own github fork of the project.
+* Navigate to the open source github home page. Click the top righthand **Fork** button and create your own Github fork of the project.
 
-This is no different from cloning except that your copy of the repo has a different name. The forked copy can then be cloned locally as in the first part of this tutorial.
+This is no different from cloning except that your copy of the repo has a named branch which starts equal to master at the time you forked. The forked copy can then be cloned locally as in the first part of this tutorial.
 
 * Follow steps [above](#cloning-a-cloud-repository-with-write-access) to create your local working copy
-* Use the same workflow as before. When **Fetching**, your fork and you local files will be updated on Github from the central repo. When **Pushing**, your fork will be updated on Github from your local changes
-* You can submit a **Pull Request** to the open source repo team to pull the changes from your fork back onto the central open source repo.
+* Use the same workflow as before. When **Fetching**, your working tree and your local commit tree will be updated, via the github commit tree from the central repo. When **Pushing**, your fork will be updated in your github repository Github from your local changes.
+* You can submit a **Pull Request** to the open source repo team to pull the changes from your branch back onto the central open source master.
 
 
 ### Avoiding Disasters in Teams Using Git
@@ -336,11 +337,11 @@ Two key things to watch for in workflow from teams:
 
 1. Not using `push --force` is easy. Don't do it except as part of global repository maintenance by a very experienced person! It is not a solution to merge conflicts in shared projects and is never needed.
 2. The second point is more complex. When you merge the repository into your own code you will necessarily merge in a whole load of _other people's changes_ in files that you know nothing about. Thus the merge commit you make _to your own repo_ will change whole loads of files you do not yourself change. The key mistake naive people can make when merging is to think that the safe thing to do is to untick all these not understood file changes so you change as little as possible. That means that your repo merge _undoes other people's commits_. When you push your merge back to the origin repo the merge will be accepted as you have made it - and other people will automatically lose all their own work when they next pull!
-3. Using private branches for your work (feature-branch or forking workflow) helps with 1. You can then also use `push --force` on private branches, if you really want to. private branch workflow also protects somewhat against 2. If your workflow delays merging until the end then an experienced person can do it. But, this is unwise. It is much better to incorporate global changes into your private branch ASAP. There is still a problem if a developer does merges wrong and ends up with a branch that is out of date. His changes will be incompatible with the rest of the project. The final merge back will be a pain, and if done wrong disastrous. But, if an experienced person is in charge of all branch merges into master, and makes these aware of the dangers, disaster can be avoided even when local developers make bad mistakes.
+3. Using private branches for your work (feature-branch or forking workflow) helps with 1. You can then use `push --force` on private branches, if you really want to. Private branch workflow also protects somewhat against 2. Private branch workflow delays merging back until the end when an experienced person can do it. Suppose a developer makes bad merges as in 2.  His changes will be incompatible with the rest of the project because he has excluded some commits from others. The final merge back will expose this problem, and if done wrong still disastrous. The merit of this workflow is that branches back into master happen rarely and therefore time can be spent checking that they look OK by an experienced gatekeeper. Even so, all developers should be made aware of the dangers in 2.
 
 Additional points worth noting:
 
-* Those commits that are cancelled by a bad merge are not lost, they reside in the the commit history and can be got back, but it is a very big pain to find and retrieve them.
+* Those commits that are cancelled by a bad merge that drops them are not lost, they reside in the the commit history and can be got back, but it is a very big pain to find and retrieve them.
 * This guide de-emphasises git staging, assuming that all files will always be staged for every commit (in Github desktop every change is ticked). if you follow this rule when merging you cannot make mistake 2. above! Personally, I'd make git automatic staging of everything a stronger default than is usually the case.
 
 ## Useful Git
