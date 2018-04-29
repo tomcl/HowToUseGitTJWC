@@ -8,12 +8,13 @@
     - [Merging: How Git manages concurrent changes](#merging--how-git-manages-concurrent-changes)
     - [When Automatic Merge Fails](#when-automatic-merge-fails)
     - [Branches](#branches)
-      - [Implicit branches](#implicit-branches)
+      - [Implicit Branches](#implicit-branches)
       - [Explicit Branches](#explicit-branches)
   - [Workflows](#workflows)
     - [Centralised Workflow](#centralised-workflow)
     - [Feature Branch Workflow](#feature-branch-workflow)
     - [Forking Workflow.](#forking-workflow)
+    - [Avoiding Disasters](#avoiding-disasters)
   - [Useful Git](#useful-git)
     - [Git Amend](#git-amend)
     - [Git Reset](#git-reset)
@@ -26,18 +27,24 @@
   - [Keeping Commit History Clean](#keeping-commit-history-clean)
     - [Git Rebase](#git-rebase)
   - [Glossary](#glossary)
+  - [Tools](#tools)
+  - [Under the Hood](#under-the-hood)
 
 
 
-Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational while also giving insight. Read it if you know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands.
+Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational while also giving insight. Read it if you know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands. Broadly speaking, you should read it linearly: simple operations and concepts are explained first and the latter parts are not needed for normal git usage.
 
 If you would like a more extensive guide to git I recommend the excellent Atlassian [set of guides](https://www.atlassian.com/git/tutorials).
+
+Git can be used via the command line (best for complex operations) or one of the many GUIs. This guide mostly assumes you use Github desktop which is very limited but has the merit of extreme simplicity and smooth operation for typical use cases. See the [Tools](#tools) section for information on other tools, and if you want to do complex git operations try a good complex GUI: it will help.
+
+The guide here assumes the use of Github to host cloud repositories but applies equally well to any other cloud provider, e.g. [Atlassian](https://www.atlassian.com/software/bitbucket).
 
 
 
 In the description below:
 
-* Highlighted action
+* Bulleted action
 
 Represents a thing you need to do. Other text explains what is going on and can (probably) be skipped if you just want to get going.
 
@@ -45,7 +52,7 @@ Represents a thing you need to do. Other text explains what is going on and can 
 
 * If you don't have one obtain a Github id from [Github](https://github.com/).
 * If you have an organisational github licence (e.g. `ImperialCollege`), allowing private repositories, add the organisation to your id as described [here](https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/research-support-systems/github/working-with-githubcom/). Imperial College staff and students should add `ImperialCollege organisation` so that they can create private repositories when needed.
-* Before getting started download and install - for your platform - [github desktop](https://desktop.github.com/).
+* Before getting started download and install - for your platform - [git](https://git-scm.com/) and [github desktop](https://desktop.github.com/).
 * If you want an operational guide follow [Guide](#guide) below.
 
 
@@ -53,7 +60,7 @@ Represents a thing you need to do. Other text explains what is going on and can 
 
 ## Centralised Workflow: Cloning a Cloud Repository with Write Access
 
-The use case here is when you are part of, or lead, a team using a cloud-based Git (typically Github) central repository (repo). You are expected to **Push** your own commits and manage merges. You will be a project contributor with write access.  This is the simplest Git workflow, but not the usual one. For the usual open source case when you contribute without write access - and somone else **Pulls** your commits - see [Forking Workflow](#forking-workflow). 
+The use case here is when you are part of, or lead, a team using a cloud-based Git (typically Github) central repository (repo). You are expected to **Push** your own commits and manage merges. You will be a project contributor with write access.  This is the simplest Git workflow, which should be understood fully first, but not the usual one. For the usual open source case when you contribute without write access - and somone else **Pulls** your commits - see [Forking Workflow](#forking-workflow). 
 
 For Github best practice, using *branches*, see [here](#github-branches) after you have mastered the simplest workflow. Practically, in many use cases where code is shared, using branches for each individual contribution is a good idea. Once you understand the simplest workflow using branches is no extra effort and has many benefits.
 
@@ -85,7 +92,7 @@ The hidden local copy of the project files is stored in a processed form by Git.
 <img src="Github%20workflow.jpg"> </img>
 </p>
 
-The picture shows how changes are propagated between the central github repository that you created, and your local files: the *working tree*). For now ignore the red arrows, and focus on the blue arrows that represent typical workflow.
+The picture shows how changes are propagated between the central Github repository that you created, and your local files: the *working tree*). For now ignore the red arrows, and focus on the blue arrows that represent typical workflow.
 
 Saving your changes - once you have useful new code - is a two-stage process as shown in the left-hand side of the picture:
 
@@ -136,7 +143,7 @@ For simple use of Git that is all you need, but it can go wrong when multiple pe
 
 ### How is Git Distributed?
 
-The key to Git's operation is that although shared repositories can have multiple copies there is no way that data can be incorrectly over-written or corrupted. In fact Git data is normally immutable. All commits ever made remain preserved in all repository copies. The only change made to a repository is to add a new commit on top of all historic commits, which remain preserved. Should data in one Git repo copy get corrupted, for example by manually editing the `.git` hidden data, the git SHA-1 CRCs will change and those files (and the corresponding Commit) ignored.
+The key to Git's operation is that although shared repositories can have multiple copies there is no way that data can be incorrectly over-written or corrupted. In fact Git data is normally immutable. All commits ever made remain preserved in all repository copies. The only change made to a repository is to add a new commit on top of all historic commits, which remain preserved. Should data in one Git repo copy get corrupted, for example by manually editing the `.git` hidden data, the git SHA-1 fingerprints will change and those files (and the corresponding Commit) ignored.
 
 One consequence of this is that when clones of a repository reside on different computers the only difference can be incompleteness. A new commit added to clone A will not propagate to clone B until it is Fetched by B or Pushed by A (assuming A ---origin---> B).
 
@@ -237,7 +244,7 @@ For more info see the [github information](https://help.github.com/articles/reso
 
 A git **branch** represents a complete history of the working file tree as a sequence of commits each containing a snapshot of file contents. The branch is identified by its HEAD commit, this links to the complete commit History. Typically a project's code will be on the _master_ branch. Any number of named other branches may coexist with the master branch. All of the Git operations you have learnt can be done, independently, on any branch. Changing a branch has no effect on any other branch, all branches are independent.
 
-#### Implicit branches
+#### Implicit Branches
 
 Thus far all work is done on the master (main) branch of the repo. However there are in fact three separate versions of this:
 
@@ -255,7 +262,7 @@ Therefore good practice when using branches that you expect _eventually_ to be m
 
 To create a named branch that is a copy of the current master:
 
-* In Github Desktop `Branch-> New Branch`. Give your name branch a nmae e.g `mybranch`. After creating the branch Github desktop will switch to tracking the new branch. You can change this at any time. 
+* In Github Desktop `Branch-> New Branch`. Give your name branch a name e.g `mybranch`. After creating the branch Github desktop will switch to tracking the new branch. You can change this at any time. 
 
 The new branch can be fetched or pulled from the origin just like master. Unlike master, it is not likely that anyone else will make Commits to it - although anyone with write access to the origin repo could do so. Branches allow each developer to have separate code on top of a common base, with the ability to merge changes back to the common code when they reach a suitable state.
 
@@ -311,6 +318,16 @@ This is no different from cloning except that your copy of the repo has a differ
 * Follow steps [above](#cloning-a-cloud-repository-with-write-access) to create your local working copy
 * Use the same workflow as before. When **Fetching**, your fork and you local files will be updated on Github from the central repo. When **Pushing**, your fork will be updated on Github from your local changes
 * You can submit a **Pull Request** to the open source repo team to pull the changes from your fork back onto the central open source repo.
+
+
+### Avoiding Disasters in Teams Using Git
+
+My reference for this is the following very instructive description of [git misuse by clever people](https://randyfay.com/content/avoiding-git-disasters-gory-story).
+
+Two key things to watch for in workflow from teams:
+
+1. Never use `git push --force` without all developers cooperating and basing all work on branches made after the push commit! Basically - never use it on shared projects.
+2. Be careful with merge. The wrong decisions resolving merges can lose other people's work, since when merging in the global repo all other people's changes must be resolved. The _merge-as-you-go_ workflow suggested here works only as long as everyone doing merges understands fully what they are doing. A good start is to make anyone doing merges on the global repository read the above link.
 
 
 ## Useful Git
@@ -460,11 +477,13 @@ Many Git guides will mention the _git staging area_. This guide does not conside
 
 This is innaccurate. Git keeps track by name in an _index_ of which files you want recorded in Git. Files not in the index are not saved by a Git commit. The default workflow using Github desktop will index all files (the tick-boxes under `Changes`). This is what you want. When files or directories should not be recorded, for example binaries and temporary files, this is managed globally through a `.gitignore` file in your repo.
 
-Advanced git users can make use of staging by unticking some files for a specific commit so that they are ignored. This is not recommended. Command line use of git requires two commands `git add` followed by `git commit` to track a new file, unless `git commit --all` is used which automatically does the add. The workflows here are all equivalent to using `git commit --all` all the time.
+Advanced git users can make use of staging by unticking some files for a specific commit so that they are ignored. Command line use of git requires two commands `git add` followed by `git commit` to track a new file, unless `git commit --all` is used which automatically does the add. The workflows here are all equivalent to using `git commit --all` all the time.
 
 ### .gitignore
 
-Git local files can optionally include a visible text file `./.gitignore`. This specified what files extensions are excluded from Git. Directories and subdirectories can also be excluded. A programming project will often use a (large) `.gitignore` tuned to the specific platform and language used so that only relevant source files, and not loader and compiler generated binaries, are recorded in Git. This is important when binay sizes are large, and good practice anyway. See the [git documentation](https://git-scm.com/docs/gitignore) or add a `.gitignore` from a skeleton project.
+Git local files can optionally include a visible text file `./.gitignore`. This specifies what files extensions are excluded from Git. Directories and subdirectories can also be excluded. A programming project will often use a (large) `.gitignore` tuned to the specific platform and language used so that only relevant source files, and not loader and compiler generated binaries, are recorded in Git. This is important when binay sizes are large, and good practice anyway. See the [git documentation](https://git-scm.com/docs/gitignore) or add a `.gitignore` from a skeleton project.
+
+WARNING. The correct .gitignore for a long-running project is essential, since otherwise multiple copies of binaries will end up taking up a lot of storage. This can be retrofitted with care, and historic references to binaries deleted retrospectively, but that is a big proceeding and one that will need cooperation of all dveelopers using the repository.
 
 
 
@@ -520,6 +539,8 @@ We don't need to consider A working files (for example, A could be a cloud repo 
 | Working tree | set of all local files in repo | n/a |
 | Commit tree | copy of all local files from last Commit stored by Git |
 | HEAD | The HEAD of a branch points to the most recent commit in a branch | n/a |
+| Blob | Git's name for a file stored in a repository | n/a |
+| SHA-1 hash | Git is based on hash lookup using data indexed uniquely by SHA-1 fingerprints| n/a |
 
 Push conflicts are caused by commits to A that cannot be automatically be resolved with the Pushed B commits (analogous to a Merge conflict). The solution is to resolve the conflict manually as a Merge conflict on B:
 
@@ -528,3 +549,42 @@ Push conflicts are caused by commits to A that cannot be automatically be resolv
 * Commit (after merge conflict)
 * Push (will now succeed)
 
+## Tools
+
+Under all circumstances install [git](https://git-scm.com/downloads) for your platform. This comes with some graphical clients built in (Git GUI).
+
+### Command line git: pros and cons
+
+Command line tools are best for very complex operations by experts because of precise functionality of commands referencing the git documentation, and stability of user interface over time. But, for those not expert, it is very unclear which of the many tool options should be used to accomplish a given task, and task-oriented GUI clients help. Also, even for experts, _some things_ need graphical exploration, like complex git commit histories. So not having a GUI to integrate history view and commands seems a wasted opportunity.
+
+### GUIs: pros and cons
+
+As always a GUI makes non-expert use simpler and has an effect on expert use that depends on how well it is written. Experts can always rely on a constant CLI, whereas will have to learn the quirks of any GUI. Nevertheless, personally, I'd always use a GUI where possible for Git because the domain you work in: commit histories and branches thereof, is naturally represented graphically and this must be exploited.
+
+A good list of GUI clients for you to explore is provided on the [Git pages](https://git-scm.com/download/gui/windows). Anyone doing a lot of git work should check them and find the best for their purposes. If you want to follow my recommendations read below.
+
+[Github Desktop](https://desktop.github.com/) is fully cross-platform and makes standard tasks very easy but has almost no complex functionality: it does not even provide extra support for editing merge conflicts! One thing I like about it is the graphical display of the git staging area. For nearly all purposes automatic staging of all changes, so that commit does what you would expect, is the right decision. Having tick-boxes that allow specific changes to be unstaged (and therefore ignored by git for a given commit) is a graceful way to deal with staging. Also, GD has graceful shortcuts to view a repo on github, locally in windows explorer, or with a command line for CLI git.
+
+[SmartGit](https://www.syntevo.com/smartgit/). Proprietary, but completely free for non-commercial use. My current choice of the GUI clients if you want to do complex operations with a GUI. In particular it has comprehensive and smooth support for reset, rebase, and merge. It integrates properly with git hosts. Were I writing a Guide for advanced Git usage I'd possibly base it on this.
+
+[Git GUI](https://git-scm.com/docs/git-gui). Clunky tcl-based but works on all OS. Provides more functionality than the very limited Github Desktop, but no good for complex operations, not smooth, and also not very complete. So its only merit for me is that it comes packaged with git. 
+
+## Under the Hood
+
+Git was written by [Linus Torvalds](https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git) in 2005 and not surprisingly it excels in the management of highly distributed open source projects.
+
+A note on the technology used by Git, irrelevant for its use. A Git repository consists of a set of **commits**, each referencing one or more parent commits. A commit is fingerprinted by an SHA-1 hex string which provides complete protection against any part of the commit files getting corrupted. Also, the SHA-1 string s used to reference commits (the first 7 digits can even be used in git commands as a commit identifier!). A commit _contains a complete stand-alone snapshot of the working file tree_.
+
+The main structure in the repository is provided by a directory HEADS that contains a list of **branch HEAD commit references**. The list of all possible commits in a repository thus is represented by a forest. There can be multiple roots because orphan branches can be created, although the default case would be a single root from which all branches emerge. Each commit history is not a single branch, but a directed graph where all paths eventually join and go to its root, because of merges which join together two branches.
+
+A detached HEAD is a reference to a commit that is not stored (with a branch name) in the HEADS directory. Detached HEADs represent a snapshot of files that you can work on temporarily: they can be made permanent by creating a named branch associated with the HEAD.
+
+In addition, git repositories have a staging area which records, for each file and branch, whether it will be recorded in the next commit or not.
+
+The Git set of commits will normally be automatically garbage collected and compacted. This can be controlled via `git gc`. Git has clever heuristics to compact the (redundant) information stored in multiple commits so that common strings are only stored once. The garbage collection process will redo this compaction. Note that the effect is similar to if each diff was a delta containing the differences from its parents, but superior to this in some respects. Note that the Commit SHA-1 hash is based on the exact contents of a given file tree at the time of its commit (as well as commit-specific identification). Therefore there is no possibility of gc bugs invalidating data - the worst that can happen is that a commit is lost.
+
+Also, because common strings are identified and hash fingerprinted by _contents only_, the same compaction method can be used to reduce redundant traffic between repositories when fetching commits that make small changes to files.
+
+This technology is clever and results in a system that is robust and reasonably efficient.
+
+SHA-1 hashes were viewed as cryptograhically secure at one time. Now it has been shown that brute force techniques (3 months time on super-large distributed computers) can [break SHA-1](https://www.pcworld.com/article/3173791/security/stop-using-sha1-it-s-now-completely-unsafe.html) by finding code that has a duplicate SHA-1 hash. Linus Torvalds (who created git) views this as very far from what is needed to make git insecure because he points out that exploits based on SHA-1 weakness remain effectively impossible for various other reasons. This is an interesting argument which will go on running: as with all encryption there is also the future threat of quantum computers powerful enough to break it.
