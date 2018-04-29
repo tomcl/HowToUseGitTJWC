@@ -32,9 +32,9 @@
 
 
 
-Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational while also giving insight. Read it if you know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands. Broadly speaking, you should read it linearly: simple operations and concepts are explained first and the latter parts are not needed for normal git usage.
+Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational while also giving insight. Read it if you know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands. Broadly speaking, you should read it linearly: simple operations and concepts are explained first and the later parts are not needed for normal git usage.
 
-If you would like a more extensive guide to git I recommend the excellent Atlassian [set of guides](https://www.atlassian.com/git/tutorials).
+If you would like a more extensive guide to git I recommend the excellent Atlassian [set of guides](https://www.atlassian.com/git/tutorials). After reading this guide, before starting a collaborative git project, make sure that you read the workflows and particularly [avoiding disasters](#avoiding-disasters).
 
 Git can be used via the command line (best for complex operations) or one of the many GUIs. This guide mostly assumes you use Github desktop which is very limited but has the merit of extreme simplicity and smooth operation for typical use cases. See the [Tools](#tools) section for information on other tools, and if you want to do complex git operations try a good complex GUI: it will help.
 
@@ -324,11 +324,23 @@ This is no different from cloning except that your copy of the repo has a differ
 
 My reference for this is the following very instructive description of [git misuse by clever people](https://randyfay.com/content/avoiding-git-disasters-gory-story).
 
+_After this gory experience, I do worry a bit about Drupal.org projects. Anyone with commit access to a project in Git cannot only add new things or intentionally remove code, but they can delete things without knowing they deleted them (without meaning to) and wipe out the history of a project… it's a frightening recipe for disaster. We are all used to believing that no matter what happens, the version control system has a history, and you can roll back. In the situation Randy is describing, there was no rolling back. Code was wiped out, permanently. Gone. As if it had never been written_
+
+
 Two key things to watch for in workflow from teams:
 
 1. Never use `git push --force` without all developers cooperating and basing all work on branches made after the push commit! Basically - never use it on shared projects.
-2. Be careful with merge. The wrong decisions resolving merges can lose other people's work, since when merging in the global repo all other people's changes must be resolved. The _merge-as-you-go_ workflow suggested here works only as long as everyone doing merges understands fully what they are doing. A good start is to make anyone doing merges on the global repository read the above link.
+2. Be careful with merge. The wrong decisions resolving merges can lose other people's work, since when merging in the global repo all other people's changes must be resolved. The _merge-as-you-go_ workflow suggested here works only as long as everyone doing merges understands what they are doing. A good start is to make anyone doing merges on the global repository read the above link, and _understand_ the discussion below.
 
+#### Discussion
+
+1. Not using `push --force` is easy. Don't do it except as part of global repository maintenance by a very experienced person! It is not a solution to merge conflicts in shared projects and is never needed.
+2. The second point is more complex. When you merge the repository into your own code you will necessarily merge in a whole load of _other people's changes_ in files that you know nothing about. Thus the merge commit you make _to your own repo_ will change whole loads of files you do not yourself change. The key mistake naive people can make when merging is to think that the safe thing to do is to untick all these not understood file changes so you change as little as possible. That means that your repo merge _undoes other people's commits_. When you push your merge back to the origin repo the merge will be accepted as you have made it - and other people will automatically lose all their own work when they next pull!
+
+Additional points worth noting:
+
+* Those commits that are cancelled by a bad merge are not lost, they reside in the the commit history and can be got back, but it is a very big pain to find and retrieve them.
+* This guide de-emphasises git staging, assuming that all files will always be staged for every commit (in Github desktop every change is ticked). if you follow this rule when merging you cannot make mistake 2. above! Personally, I'd make git automatic staging of everything a stronger default than is usually the case.
 
 ## Useful Git
 
