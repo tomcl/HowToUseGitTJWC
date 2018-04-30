@@ -158,10 +158,10 @@ All Git repos contain the same information (when up-to-date) so Git is peer-to-p
 
 Suppose the central repository master branch initially has most recent Commit _C_, and Commit history: _C_ --> _B_ --> _A_. The arrows go from commits to their parents (the previous commit to which they link in the branch history). _C_ is the HEAD of the central commit history.
 
-Two team members, David and Eddie, make respective Commits _D_ and _E_ on their local cloned copies with origin the central repo:
+Two team members, David and Eddie, make respective Commits _D_ and _E_ on their local cloned copies of the central repo. These copies have origin set to the central repo, so push and pull will reference the central repo.
 
 
-| repo  |  commit history  |
+| repo and branch |  commit history  |
 |-----|----:|
 |Central master| _C_ --> _B_ --> _A_|
 |David local master | _D_ --> _C_ --> _B_ --> _A_ |
@@ -169,7 +169,7 @@ Two team members, David and Eddie, make respective Commits _D_ and _E_ on their 
 
 The first one of David and Eddie who Pushes will succeed without problem. For example after Eddie Push we have:
 
-| repo  |  commit history  |
+| repo and branch  |  commit history  |
 |-----|----:|
 |Central master| _E_ --> _C_ --> _B_ --> _A_|
 | David local master | _D_ --> _C_ --> _B_ --> _A_ |
@@ -179,9 +179,9 @@ The first one of David and Eddie who Pushes will succeed without problem. For ex
 David now cannot Push, because that would lead to an origin Commit history with two HEADs, _D_ and _E_. The (usual) solution is to reconcile the changes from _D_ and _E_ in a **Merge** operation, and Push the result. This is all done by David, locally, as follows:
 
 * Commit _D_ (already done by David locally)
-* Fetch central (David's local copy is now aware of Eddie's _E_ commit). NB Fetch is normally Done automatically by Pull.
+* Fetch central (David's local copy is now aware of Eddie's _E_ Commit). NB Fetch is normally done automatically by Pull.
 * Pull central. This merges _E_ with _D_ in David's local working tree - resolving collisions as necessary - also creating a new Commit _F_ in David's commit tree.
-* David tests _F_ to check it still works.
+* David tests _F_ (using his working tree files, equal to _F_) to check it still works.
 * David Pushes.  Both _E_ and _F_ will be pushed to the central repository creating a diamond-shaped commit history with HEAD _F_ as below. The commit _F_ is allowed because _F_ is a single common HEAD to the master branch. Note that in Git, because of merges, a commit such as _F_ can have more than one parent, in this case _D_ and _E_.
 
 <p align="center">
