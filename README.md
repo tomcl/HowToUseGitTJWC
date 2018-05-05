@@ -32,18 +32,18 @@
 
 
 
-Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational first, while also giving insight and explaining deeper issues. Read it if you know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands. Broadly speaking, you should read it linearly: Typical operations and concepts are explained first, then typical workflows are explained. The later parts are not needed for normal git usage.
+Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational first, while also giving insight and explaining deeper issues. Read it if you are technically minded and either know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands. Broadly speaking, you should read this document linearly: Typical operations and concepts are explained first, then typical workflows are explained. The later parts are not needed for normal git usage.
 
-Before starting a collaborative git project, make sure that you read the workflows and particularly [avoiding disasters](#avoiding-disasters). If you would like a more extensive guide to git I recommend the excellent Atlassian [set of guides](https://www.atlassian.com/git/tutorials). 
+Before starting a collaborative git project, make sure that you read the workflows and particularly [avoiding disasters](#avoiding-disasters). If you would like a more extensive operational guide to git I recommend the excellent Atlassian [set of guides](https://www.atlassian.com/git/tutorials). 
 
 Git can be used via the command line (best for complex operations) or one of the many GUIs. This guide mostly assumes you use Github desktop which is very limited but has the merit of extreme simplicity and smooth operation for typical use cases. See the [Tools](#tools) section for information on other tools, and if you want to do complex git operations try a good complex GUI: it will help, but only when you understand how git works (perhaps by reading this guide).
 
 This guide assumes the use of Github to host cloud repositories but applies equally well to any other cloud provider, e.g. [Atlassian](https://www.atlassian.com/software/bitbucket).
 
 
-##### Why are there so many git guides?
+##### Why are there so many Git Guides?
 
-Git workflows are used _at an abstract level_ where the implementation is mostly hidden, and everyone contributing to a Git project must understand the do's and don'ts at this level. Unfortunately, the operations needed don't make much sense and seem like magic without a more detailed understanding of the implementation. So many people will say: _I've read many git guides but I still don't get it_.
+Git workflows are used _at an abstract level_ where the implementation is mostly hidden, and everyone contributing to a shared Git project must understand the do's and don'ts at this level. Unfortunately, the operations needed don't make much sense and seem like magic without a more detailed understanding of the implementation. So many people will say: _I've read many git guides but I still don't get it_. This common feeling leads them to write YAG (Yet Another Guide).
 
 
 In the description below:
@@ -52,7 +52,7 @@ In the description below:
 
 Represents an operational thing you need to do. Other text explains what is going on and can be skipped if you just want to get going. Be warned though: you will need to come back to the other text at some point.
 
-At the end there is a [glossary](#glossary) of git terminology that will help make things more precise after you have read the guide.
+At the end there is a [glossary](#glossary) of git terminology that will help make things more precise when you have doubts after you have read the guide.
 
 ## Preliminaries
 
@@ -60,6 +60,7 @@ At the end there is a [glossary](#glossary) of git terminology that will help ma
 * If you have an organisational github licence (e.g. `ImperialCollege`), allowing private repositories, add the organisation to your id as described [here](https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/research-support-systems/github/working-with-githubcom/). Imperial College staff and students should add `ImperialCollege organisation` so that they can create private repositories when needed. After ading the organisation to your account you will be able to choose either standard public-access Github, or organisation-based (allowed private) Github.
 * Before getting started download and install - for your platform - [git](https://git-scm.com/) and [github desktop](https://desktop.github.com/).
 * If you want an operational guide follow bullet points in [Guide](#guide) below. Otherwise read linearly - you'll get to it soon.
+* Please star this repo if it is useful and provide feedback by creating issues so it can be improved.
 
 
 
@@ -76,6 +77,7 @@ Complete copies of project source files, with git history and control, are calle
 
 This first section uses only the Git _master_ branch: no more is needed to exercise the important parts of Git functionality.
 
+* Make sure you have done the steps under [preliminaries](preliminaries).
 * Go to [Github](https://www.github.com). Use the New Repository button to create a new repository that you can write to. Choose a name. Tick the _initialise this repository with a README_ button. In what follows replace `myrepo` by the name you have chosen.
 * Clone your new repo from the Github repo home page. To clone a repository use the _Open in Github Desktop_ option from the *Clone or Download zip* button. Choose a directory: typically something like `C:\users\myid\GitHub` in which the cloned repo (a directory named by default `myrepo`) will be put. Note that there is nothing magic about the location: a Git repo has all control information inside the directory containing the local file copy and it is portable - you can move the directory wherever you like.
 
@@ -145,7 +147,7 @@ Pull is not quite identical to Fetch + Merge, but in all normal use cases there 
 
 Github desktop is good at keeping your working set synchronised with the origin repo. The action button displays the Git command needed to synchronise safely and provides feedback on status.
 
-You have now completed a _very simple_ git guide and know how to use Github as a remote git repository for you local files. For simple use of Git that is all you need, but it can go wrong when working in  a team. That is discovered during Pull or Push. See the section on [when automatic merge fails](#when-automatic-merge-fails).
+You have now completed a _very simple_ git guide and know how to use Github as a remote git repository for your local files. For simple use of Git that is all you need, but it can go wrong when working in  a team. That is discovered during **Pull** or **Push** either of which can end up needing a merge. See the section on [when automatic merge fails](#when-automatic-merge-fails).
 
 ### How is Git a Distributed Source Control System?
 
