@@ -40,7 +40,11 @@ Git can be used via the command line (best for complex operations) or one of the
 
 This guide assumes the use of Github to host cloud repositories but applies equally well to any other cloud provider, e.g. [Atlassian](https://www.atlassian.com/software/bitbucket).
 
+<aside>
 
+**Why are there so many git guides?** Git workflows are used at an abstract level where the implementation is mostly hidden, and everyone contributing to a Git project must understand the do's and don'ts at this level. Unfortunately, the operations needed don't make much sense without a more detailed understanding of the implementation. So many people will say: _I've read many git guides but I still don't get it_.
+
+</aside>
 
 In the description below:
 
