@@ -32,6 +32,14 @@
 
 
 
+<aside style="float:right;width:40%;border:2px solid black;border-radius:5px;margin:5px;padding:5px;background:yellow;display">
+
+##### Why are there so many Git Guides?
+
+Git workflows are used _at an abstract level_ where the implementation is mostly hidden, and everyone contributing to a shared Git project must understand the dos and don'ts at this level. Unfortunately, the operations needed seem like magic without a more detailed understanding of the implementation. So many people will say: _I've read many git guides but I still don't get it_. This common feeling leads them to write YAG (Yet Another Guide).
+
+</aside>
+
 Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational first, while also giving insight and explaining deeper issues. Read it if you are technically minded and either know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands. Broadly speaking, you should read this document linearly: Typical operations and concepts are explained first, then typical workflows are explained. The later parts are not needed for normal git usage.
 
 Before starting a collaborative git project, make sure that you read the workflows and particularly [avoiding disasters](#avoiding-disasters). If you would like a more extensive operational guide to git I recommend the excellent Atlassian [set of guides](https://www.atlassian.com/git/tutorials). 
@@ -41,13 +49,7 @@ Git can be used via the command line (best for complex operations) or one of the
 This guide assumes the use of Github to host cloud repositories but applies equally well to any other cloud provider, e.g. [Atlassian](https://www.atlassian.com/software/bitbucket).
 
 
-<aside style="float:right">
 
-##### Why are there so many Git Guides?
-
-Git workflows are used _at an abstract level_ where the implementation is mostly hidden, and everyone contributing to a shared Git project must understand the dos and don'ts at this level. Unfortunately, the operations needed seem like magic without a more detailed understanding of the implementation. So many people will say: _I've read many git guides but I still don't get it_. This common feeling leads them to write YAG (Yet Another Guide).
-
-</aside>
 
 In the description below:
 
