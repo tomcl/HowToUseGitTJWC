@@ -543,10 +543,10 @@ One radical solution (to remove pushed history) is to copy the repo to a new rep
 In the table below repo B has `origin` repo A. Operations are done by B. We have:
 
 * B working tree (BW)
-* B commit tree (BG)
+* B commit tree (BC)
 * A commit tree (A)
 
-BG and AG represent logically the same (master) branch so over time will stay in sync, however temporarily one or other can be ahead with commits not yet propagated.
+BC and A represent logically the same (master) branch so over time will stay in sync, however temporarily one or other can be ahead with commits not yet propagated.
 
 We don't need to consider A working files (for example, A could be a cloud repo with nothing except the Git files).
 
@@ -554,7 +554,7 @@ We don't need to consider A working files (for example, A could be a cloud repo 
 |------------|-----------------|-----|
 | Fetch | Copy new A commits to BC | BC |
 | Automatic Merge | Copy new A commits to BW  | BW |
-| Merge (with conflict) | Update BF with A and conflict markers | BW |
+| Merge (with conflict) | Update BW with A and conflict markers | BW |
 | Resolve conflict | Delete conflict markers, <br> manually correcting conflicted lines | BW |
 | Commit (after Merge conflict) | Update BC with BW | BC |
 | Pull | Fetch then Merge | BC and BW |
