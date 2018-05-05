@@ -565,7 +565,7 @@ We don't need to consider A working files (for example, A could be a cloud repo 
 | Working tree | set of all local files in repo | n/a |
 | Commit tree | copy of all local files from last Commit stored by Git |
 | HEAD | The HEAD of a branch points to the most recent commit in a branch | n/a |
-| Blob | Git's name for a file stored in a repository | n/a |
+| Blob | Git's name for a file stored in compressed form in a repository | n/a |
 | SHA-1 hash | Git is based on hash lookup using data indexed uniquely by SHA-1 fingerprints. The first 7 digits of the hash are also used as a short reference to a specific commit.| n/a |
 
 Push conflicts are caused by commits to A that cannot be automatically be resolved with the Pushed B commits (analogous to a remote Merge conflict). The solution is to resolve the conflict manually as a local Merge conflict on B, and _then_ Push:
