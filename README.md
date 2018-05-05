@@ -32,7 +32,7 @@
 
 
 
-Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational while also giving insight and explaining deeper issues. Read it if you know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands. Broadly speaking, you should read it linearly: Typical operations and concepts are explained first, then typical workflows are explained. The later parts are not needed for normal git usage.
+Most of the Git guides on the web are either quick and operational - making what is really happening obscure - or very complex. This guide attempts to be operational first, while also giving insight and explaining deeper issues. Read it if you know nothing about git, or have used it but don't really understand what is going on. The key principle is to explain the simplest use cases in detail suppressing more complex options in commands. Broadly speaking, you should read it linearly: Typical operations and concepts are explained first, then typical workflows are explained. The later parts are not needed for normal git usage.
 
 Before starting a collaborative git project, make sure that you read the workflows and particularly [avoiding disasters](#avoiding-disasters). If you would like a more extensive guide to git I recommend the excellent Atlassian [set of guides](https://www.atlassian.com/git/tutorials). 
 
@@ -40,33 +40,35 @@ Git can be used via the command line (best for complex operations) or one of the
 
 This guide assumes the use of Github to host cloud repositories but applies equally well to any other cloud provider, e.g. [Atlassian](https://www.atlassian.com/software/bitbucket).
 
-<aside>
 
-**Why are there so many git guides?** Git workflows are used at an abstract level where the implementation is mostly hidden, and everyone contributing to a Git project must understand the do's and don'ts at this level. Unfortunately, the operations needed don't make much sense without a more detailed understanding of the implementation. So many people will say: _I've read many git guides but I still don't get it_.
+##### Why are there so many git guides?
 
-</aside>
+Git workflows are used _at an abstract level_ where the implementation is mostly hidden, and everyone contributing to a Git project must understand the do's and don'ts at this level. Unfortunately, the operations needed don't make much sense and seem like magic without a more detailed understanding of the implementation. So many people will say: _I've read many git guides but I still don't get it_.
+
 
 In the description below:
 
 * Bulleted action
 
-Represents a thing you need to do. Other text explains what is going on and can (probably) be skipped if you just want to get going.
+Represents an operational thing you need to do. Other text explains what is going on and can be skipped if you just want to get going. Be warned though: you will need to come back to the other text at some point.
+
+At the end there is a [glossary](#glossary) of git terminology that will help make things more precise after you have read the guide.
 
 ## Preliminaries
 
 * If you don't have one obtain a Github id from [Github](https://github.com/).
-* If you have an organisational github licence (e.g. `ImperialCollege`), allowing private repositories, add the organisation to your id as described [here](https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/research-support-systems/github/working-with-githubcom/). Imperial College staff and students should add `ImperialCollege organisation` so that they can create private repositories when needed.
+* If you have an organisational github licence (e.g. `ImperialCollege`), allowing private repositories, add the organisation to your id as described [here](https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/research-support-systems/github/working-with-githubcom/). Imperial College staff and students should add `ImperialCollege organisation` so that they can create private repositories when needed. After ading the organisation to your account you will be able to choose either standard public-access Github, or organisation-based (allowed private) Github.
 * Before getting started download and install - for your platform - [git](https://git-scm.com/) and [github desktop](https://desktop.github.com/).
-* If you want an operational guide follow [Guide](#guide) below.
+* If you want an operational guide follow bullet points in [Guide](#guide) below. Otherwise read linearly - you'll get to it soon.
 
 
 
 
 ## Centralised Workflow: Cloning a Cloud Repository with Write Access
 
-The use case here is when you are part of, or lead, a team using a cloud-based Git (typically Github) central repository (repo). You are expected to **Push** your own commits and manage merges. You will be a project contributor with write access.  This is the simplest Git workflow, which should be understood fully first, but not the usual one. For the usual open source case when you contribute without write access - and somone else **Pulls** your commits - see [Forking Workflow](#forking-workflow). 
+The use case here is when you are part of, or lead, a team using a cloud-based Git (e.g. Github) central repository or _repo_. You are expected to **Push** your own commits and manage **Merges**. You will be a project contributor with write access.  This is the simplest Git workflow, which should be understood fully first, but not the usual one. For the usual open source case when you contribute without write access - and somone else **Pulls** your commits and manages **Merges** - see [Forking Workflow](#forking-workflow). 
 
-For Github best practice, using *branches*, see [here](#github-branches) after you have mastered the simplest workflow. Practically, in many use cases where code is shared, using branches for each individual contribution is a good idea. Once you understand the simplest workflow using branches is no extra effort and has many benefits.
+For Git best practice, using *branches*, see [here](#github-branches) after you have mastered the simplest workflow. Practically, in many use cases where code is shared, using branches for each individual contribution is a good idea. Once you understand the simplest workflow, adding branches is no extra effort and has many benefits.
 
 ### Guide
 
@@ -88,9 +90,11 @@ In fact the local repository you have created consists of TWO LOCAL COPIES of th
 `C:/users/myid/github/myrepo` (the **working tree** copy you can see)
 `C:/users/myid/github/myrepo/.git` (a hidden *commit tree* copy processed only by git)
 
+We use this terminology throughout: _working tree_ is the local visible files - anything you put into the repository directory. _Commit tree_ is the snapshot of those files tracked by git and recorded in the `.git` subdirectory.
+
 The commit tree is not human editable and must never be touched by you directly. Either command line git tools or (easier for most simple tasks, and used in this Tutorial) Github Desktop will operate on it.
 
-Initially both the commit tree and your visible files will be identical to the remote repo. When you develop new code you change the local files, but the commit tree is unchanged until you use git commands to record your changes.
+Initially both the commit tree and the working tree will be identical to the remote repo. When you develop new code you change the working tree, but the commit tree is unchanged until you use git commands to record your changes.
 
 <p align="center">
 <img src="Github%20workflow.jpg"> </img>
@@ -100,8 +104,8 @@ The picture shows how changes are propagated between the central Github reposito
 
 Saving your changes - once you have useful new code - is a two-stage process as shown in the left-hand side of the picture:
 
-1. **Commit** to the local repository. Your visible file changes are saved to the commit tree files, with a Git tracking message. Git preserves every commit as a self-contained snapshot and can backtrack to any point in its history. Any number of commits can be made.
-2. **Push** the local repository to the remote repository. This propagates  all outstanding newly created commit snapshots to the remote repo where they can be picked up by anyone else.
+1. **Commit** to the local repository. Your visible file changes are saved to the commit tree files, with a Git tracking message. Git preserves every individual commit as a self-contained snapshot and can backtrack to any point in its history. Any number of commits can be made. Normally the latest commit, representing the most recent code, is the only one that matters.
+2. **Push** the local repository to the remote repository. This propagates  all outstanding newly created commits - there could be more than one - to the remote repo where they can be picked up by anyone else.
 
 * Keep Github desktop open on your local repository `myrepo` so you can conveniently run git commands from the GUI. It will also periodically Fetch origin/master which is helpful though not necessary.
 * Change some local files: e.g. add something to the README.
@@ -125,33 +129,31 @@ The Commit DOES NOT UPDATE THE REMOTE REPO, but saves your changes in the hidden
 * To update the remote repository, when you are ready and the new code passes tests, press the **Push** action button. This will upload your new Commit to the origin repo.
 * Best practice in a code project. Make frequent _local_ repository commits (even of non-working code) so you can backtrack locally. Perform Pushes when your local code is all working. The repository may have a potentially large set of acceptance tests which should be run and passed before pushing to the remote origin/master.
 * Normally you make a small change, check it works, and then Push.
-* If other people are changing the same origin repo keep Github Desktop open all the time to **Fetch** the remote code regularly. Whenever there are outstanding remote commits the action button will change to **Pull**.  Use **Pull** as described below to reconcile them with your local files ASAP, so that your local tests run with uptodate repo code.
+* If other people are changing the same origin repo keep Github Desktop open all the time to **Fetch** the remote code regularly. Whenever there are outstanding remote commits the action button will change to **Pull**.  Use **Pull** as described below to reconcile them with your local files ASAP, so that your local tests run with uptodate repo code that includes changes made by other people.
 
 Incorporating changes that other users have pushed to the origin repo is the opposite process (right-hand side of the picture). 
 
 * Before you start make sure all local file changes are Committed and also Pushed as above.
 
-This is not necessary, and in general not always possible, but it simplifies the walk-through.
+This is not necessary, and in general not always possible, but it simplifies the walk-through to have only one-way change propagation.
 
 * Change the README file in the origin repo using the GitHub edit command.
 * **Fetch** the origin repo using the Github action button. 
 * **Pull** the origin repo using the action button again. Fetch and Merge together are implemented as **Pull**.
 
-Pull is not quite identical to Fetch + Merge, but in all normal use cases there is no distinction. So here, Fetch has no more effect having already been done, and Pull will **Merge** the newly fetched files from origin repo into your local working files.
-
-
+Pull is not quite identical to Fetch + Merge, but in all normal use cases there is no distinction. So here, Fetch has no more effect having already been done, and Pull will **Merge** the newly fetched files from origin repo into your local working files by updating anything that has been changed in the origin. In this case the README file gets updated.
 
 Github desktop is good at keeping your working set synchronised with the origin repo. The action button displays the Git command needed to synchronise safely and provides feedback on status.
 
-For simple use of Git that is all you need, but it can go wrong when multiple people are changing distinct local copies at the same time. That is discovered during Pull or Push. See the section on [when automatic merge fails](#when-automatic-merge-fails)
+You have now completed a _very simple_ git guide and know how to use Github as a remote git repository for you local files. For simple use of Git that is all you need, but it can go wrong when working in  a team. That is discovered during Pull or Push. See the section on [when automatic merge fails](#when-automatic-merge-fails).
 
-### How is Git Distributed?
+### How is Git a Distributed Source Control System?
 
-The key to Git's operation is that although shared repositories can have multiple copies there is no way that data can be incorrectly over-written or corrupted. In fact Git data is normally immutable. All commits ever made remain preserved in all repository copies. The only change made to a repository is to add a new commit on top of all historic commits, which remain preserved. Should data in one Git repo copy get corrupted, for example by manually editing the `.git` hidden data, the git SHA-1 fingerprints will change and those files (and the corresponding Commit) ignored.
+The key to Git's operation is that although shared repositories can have multiple code copies there is no way that data can be incorrectly over-written or corrupted. In fact Git data is normally immutable. All commits ever made remain preserved in all repository copies. The only change made to a repository is to add a new commit on top of all historic commits, which remain preserved. Should data in one Git repo copy get corrupted, for example by manually editing the `.git` hidden data, the git SHA-1 fingerprints will change and those files (and the corresponding Commit) ignored.
 
-One consequence of this is that when clones of a repository reside on different computers the only difference can be incompleteness. A new commit added to clone A will not propagate to clone B until it is Fetched by B or Pushed by A (assuming A ---origin---> B).
+One consequence of this is that when clones of a repository reside on different computers the only difference can be incompleteness. A new commit added to clone A will not propagate to clone B until it is Fetched by B or Pushed by A (assuming `A` `---origin--->` `B`).
 
-All Git repos contain the same information (when up-to-date) so Git is peer-to-peer. It is often used with a single central cloud repository and others (local or cloud) connected to this via ---origin--> links. But this is for convenience only - and the links can be broken and remade differently if you wish. Any one of the repositories _alpha_ - _epsilon_ in the picture contains enough information to reconsitute them all - except for a few local unsynchronised commits. Also, although _alpha_ is the root of the tree of origin connections this is not significant for operation.
+All Git repos contain the same information (when up-to-date) so Git is peer-to-peer. It is often used with a single central cloud repository and others (local or cloud) connected to this via `---origin-->` links. But this is for convenience only - and the links can be broken and remade differently if you wish. Any one of the repositories _alpha_ - _epsilon_ in the picture contains enough information to reconsitute them all - except for a few local unsynchronised commits. In the picture _alpha_ is the root of the tree of the origin connections. This does not give _alpha_ any special status. If _Alpha_ stops working any other repository that has been regularly synchronised with _alpha_ could take over its role simply by changing origin links and no data is lost.
 
 <p align="center">
 <img src="repos-origins.jpg"> </img>
@@ -160,16 +162,16 @@ All Git repos contain the same information (when up-to-date) so Git is peer-to-p
 
 ### Merging: How Git manages concurrent changes
 
-Suppose the central repository master branch initially has most recent Commit _C_, and Commit history: _C_ --> _B_ --> _A_. The arrows go from commits to their parents (the previous commit to which they link in the branch history). _C_ is the HEAD of the central commit history.
+Suppose the central repository master branch initially has most recent Commit _C_, and Commit history: _C_ --> _B_ --> _A_. The arrows go from commits to their parents (the previous commit to which they link in the branch history). _C_ is pointed to by the HEAD of the central commit history. When a new commit is added to a repository branch (in this case the master branch) the head changes to point to the new commit.
 
 Two team members, David and Eddie, make respective Commits _D_ and _E_ on their local cloned copies of the central repo. These copies have origin set to the central repo, so push and pull will reference the central repo.
 
 
-| repo and branch |  commit history  |
-|-----|----:|
-|Central master| _C_ --> _B_ --> _A_|
-|David local master | _D_ --> _C_ --> _B_ --> _A_ |
-|Eddie local master | _E_ --> _C_ --> _B_ --> _A_ |
+| repo | branch |  origin | commit history  |
+|-----|---|--|---:|
+|Central | master| n/a | _C_ --> _B_ --> _A_|
+|David | master | Central |_D_ --> _C_ --> _B_ --> _A_ |
+|Eddie | master | Central |  _E_ --> _C_ --> _B_ --> _A_ |
 
 The first one of David and Eddie who Pushes will succeed without problem. For example after Eddie Push we have:
 
@@ -180,13 +182,13 @@ The first one of David and Eddie who Pushes will succeed without problem. For ex
 |Eddie local master | _E_ --> _C_ --> _B_ --> _A_ |
 
 
-David now cannot Push, because that would lead to an origin Commit history with two HEADs, _D_ and _E_. The (usual) solution is to reconcile the changes from _D_ and _E_ in a **Merge** operation, and Push the result. This is all done by David, locally, as follows:
+David now cannot Push, because that would lead to an origin Commit history with two HEADs, _D_ and _E_. The (usual) solution is to reconcile the changes from _D_ and _E_ in a **Merge** operation, and **Push** the result. This is all done by David, locally, as follows:
 
 * Commit _D_ (already done by David locally)
-* Fetch central (David's local copy is now aware of Eddie's _E_ Commit). NB Fetch is normally done automatically by Pull.
-* Pull central. This merges _E_ with _D_ in David's local working tree - resolving collisions as necessary - also creating a new Commit _F_ in David's commit tree.
+* Fetch origin (David's local copy is now aware of Eddie's _E_ Commit). NB Fetch is normally done automatically by **Pull**.
+* Pull origin. This merges _E_ with _D_ in David's local working tree - resolving collisions as necessary - also creating a new Commit _F_ in David's commit tree.
 * David tests _F_ (using his working tree files, equal to _F_) to check it still works.
-* David Pushes.  Both _E_ and _F_ will be pushed to the central repository creating a diamond-shaped commit history with HEAD _F_ as below. The commit _F_ is allowed because _F_ is a single common HEAD to the master branch. Note that in Git, because of merges, a commit such as _F_ can have more than one parent, in this case _D_ and _E_.
+* David Pushes to origin.  Both _E_ and _F_ will be pushed to the central repository creating a diamond-shaped commit history with HEAD _F_ as below. The commit _F_ is allowed because _F_ is a single common HEAD to the master branch. Note that in Git, because of merges, a commit such as _F_ can have more than one parent, in this case _D_ and _E_.
 
 <p align="center">
 <img src="gw2.jpg"> </img>
@@ -306,9 +308,9 @@ See also Atlassian [description](https://www.atlassian.com/git/tutorials/compari
 
 ### Forking Workflow.
 
-As above but fork the origin cloud repo to your own cloud Github repo. Then clone this to the local (working) repo. That allows each collaborator to have their own private cloud repo for their branch and is commonly used for open source projects. See also Atlassian [description](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow).
+As above but fork the origin cloud repo first to your own cloud Github repo. Then clone this to the local (working) repo. That allows each collaborator to have their own private cloud repo (which they can write) for their branch and is commonly used for open source projects. See also Atlassian [description](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow).
 
-This workflow is typically used contributing to open source projects. It is more complex than contributing to a team project because contributors do not have write access to the central repo, nor are necessarily trusted. Therefore they cannot **Push** their commits. Instead one of the repo core contributer team (who do have write access) will **Pull** the commits - checking that they are OK. Developers therefore make **pull requests** in order (effectively) to push - which terminology is confusing when you first meet it.
+This workflow is typically used contributing to open source projects. It is more complex than contributing to a team project because contributors do not have write access to the central repo, nor are necessarily trusted. Therefore they cannot **Push** their commits. Instead one of the repo core contributer team (who do have write access) will **Pull** the commits - checking that they are OK. Developers therefore make **Pull requests** in order to push - which terminology is confusing when you first meet it.
 
 Why does this make things more complex? In order for your commits to be Pulled they must reside in a cloud-based repository - not your local working copy. Therefore one extra clone of the repository must be made by you as illustrated below.
 
@@ -347,6 +349,12 @@ Additional points worth noting:
 
 * Those commits that are cancelled by a bad merge that drops them are not lost, they reside in the the commit history and can be got back, but it is can be very difficult to find and retrieve them.
 * This guide de-emphasises git staging, assuming that all files will always be staged for every commit (in Github desktop every change is ticked). If you follow this rule when merging you cannot make mistake 2. above! Personally, I'd make git automatic staging of everything a stronger default than is usually the case.
+
+Useful links:
+
+* [recovering from git disasters](http://ale7714.github.io/recovering-from-git-disasters/)
+* [more from Randy Fay](https://randyfay.com/content/avoiding-git-disasters-gory-story)
+* [central developers accidentally do `git --force` to 150 repos](https://news.ycombinator.com/item?id=6713742)
 
 ## Useful Git
 
