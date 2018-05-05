@@ -347,7 +347,7 @@ Two key things to watch for in workflow from teams:
 
 Additional points worth noting:
 
-* Those commits that are cancelled by a bad merge that drops them are not lost, they reside in the the commit history and can be got back, but it is can be very difficult to find and retrieve them.
+* Those commits that are cancelled by a bad merge that drops them are not lost, they reside in the the commit history and can be got back, but it is very difficult to find and retrieve them.
 * This guide de-emphasises git staging, assuming that all files will always be staged for every commit (in Github desktop every change is ticked). If you follow this rule when merging you cannot make mistake 2. above! Personally, I'd make git automatic staging of everything a stronger default than is usually the case.
 
 Useful links:
