@@ -391,6 +391,16 @@ To use `Git GUI` to make an amend:
 
 Sometimes you want to abandon unsaved changes in working files and return to the last commit. The command here is `git reset --hard --all` which will need to be executed from a command line. This command permanently deletes any unsaved changes, so be careful.
 
+### When All Else Fails
+
+Suppose an older git repo `myrepo` has not been regularly synced with origin and will not merge. If you are sure there are no valuable unsynced commits in myrepo the solution is simple:
+
+* Delete the myrepo (delete its working tree directory)
+* Re-clone myrepo from origin
+
+This is quicker and safer than trying to sort out a merge, since the working uptodate code is guaranteed not to be corrupted. However, anything not previously synced in myrepo will be lost so you must be sure that is OK.
+
+
 ## Advanced Git Methods
 
 ### Rebase
