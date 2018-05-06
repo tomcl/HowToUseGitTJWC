@@ -34,7 +34,7 @@
 
 <aside style="float:right;width:40%;border:2px solid black;border-radius:5px;margin:5px;padding:5px;background:yellow;display">
 
-##### Why are there so many Git Guides?
+Why are there so many Git Guides?
 
 Git workflows are used _at an abstract level_ where the implementation is mostly hidden, and everyone contributing to a shared Git project must understand the dos and don'ts at this level. Unfortunately, the operations needed seem like magic without a more detailed understanding of the implementation. So many people will say: _I've read many git guides but I still don't get it_. This common feeling leads them to write YAG (Yet Another Guide).
 
