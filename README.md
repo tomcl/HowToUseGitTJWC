@@ -391,14 +391,33 @@ To use `Git GUI` to make an amend:
 
 Sometimes you want to abandon unsaved changes in working files and return to the last commit. The command here is `git reset --hard --all` which will need to be executed from a command line. This command permanently deletes any unsaved changes, so be careful.
 
-### When All Else Fails
+### Managing One Out of Synchronisation Local Repository
 
-Suppose an older git repo `myrepo` has not been regularly synced with origin and will not merge. If you are sure there are no valuable unsynced commits in myrepo the solution is simple:
+Suppose a local git repo `myrepo` has not been regularly Pushed/Pulled with origin and will not merge. If you are sure there are no valuable unsynced commits on any branches in `myrepo` the solution is simple:
 
-* Delete the myrepo (delete its working tree directory)
-* Re-clone myrepo from origin
+* Delete `myrepo` (delete its working tree directory)
+* Re-clone `myrepo` from origin
 
-This is quicker and safer than trying to sort out a merge, since the working uptodate code is guaranteed not to be corrupted. However, anything not previously synced in myrepo will be lost so you must be sure that is OK.
+This is quicker and safer than trying to sort out a complex merge, since the working uptodate code is guaranteed not to be corrupted. However, anything not previously synced in myrepo will be lost so you must be sure that is OK.
+
+If you want to overwrite _just one branch_ of `myrepo`, say `master`,  with its origin version `origin/master` you can do this, assuming initially working with `master` as current branch on `myrepo`, with:
+
+* `git fetch`
+* `git reset --hard origin/master`
+
+If you want to save any local changes on `master`, just in case, do:
+
+* `git commit -a -m "Saving my work, just in case"`
+* `git branch my-saved-work` # this branch saves any chnages
+* `git fetch`
+* `git reset --hard origin/master`
+
+#### Syncing branches
+
+Normally changes are only ever made on one branch of a given repo, and therefore that branch is Pushed/Pulled with origin. Beware if you make changes on two branches that _both branches_ get regularly synced. Github desktop will only push/Pull the current branch. If deleting a local repo as above make sure it has no valuable unsynced commits on any branch.
+
+
+
 
 
 ## Advanced Git Methods
