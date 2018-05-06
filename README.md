@@ -54,7 +54,7 @@ Represents an operational thing you need to do. Other text explains what is goin
 
 At the end there is a [glossary](#glossary) of git terminology that will help make things more precise when you have doubts after you have read the guide.
 
-***** Why Yet Another Git Guide?
+##### Why Yet Another Git Guide?
 
 Git workflows are used _at an abstract level_ where the implementation is mostly hidden, and everyone contributing to a shared Git project must understand the dos and don'ts at this level. Unfortunately, the operations needed seem like magic without a more detailed understanding of the implementation, and how operations combine in more complex situations is unclear. So many people will say: _I've read many git guides but I still don't get it_. 
 
