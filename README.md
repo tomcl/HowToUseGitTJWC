@@ -389,7 +389,7 @@ To use `Git GUI` to make an amend:
 
 ### Git Reset
 
-Sometimes you want to abandon unsaved changes in working files and return to the last commit. The command here is `git reset --hard --all` which will need to be executed from a command line. This command permanently deletes any unsaved changes, so be careful.
+Sometimes you want to abandon unsaved changes in working files and return to the last commit. The command here is `git reset --hard` which will need to be executed from a command line. This command permanently deletes any unsaved changes, so be careful.
 
 ### Managing One Out of Synchronisation Local Repository
 
