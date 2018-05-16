@@ -120,7 +120,7 @@ Saving your changes - once you have useful new code - is a two-stage process as 
   * Also shown in the Github desktop black toolbar are the current repository name, the current _branch_ name, and the _git action button_.
 
 <p align="center">
-<img src="commit-screen.jpg"> </img>
+<img src="./commit-screen.jpg"> </img>
 </p>
 
 * Add a short message such as "update README" under `Summary` - this is required -  and press **Commit to master**.
