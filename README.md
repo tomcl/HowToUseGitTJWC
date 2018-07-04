@@ -176,7 +176,7 @@ Two team members, David and Eddie, make respective Commits _D_ and _E_ on their 
 |David | master | Central |_D_ --> _C_ --> _B_ --> _A_ |
 |Eddie | master | Central |  _E_ --> _C_ --> _B_ --> _A_ |
 
-The first one of David and Eddie who Pushes will succeed without problem. For example after Eddie Push we have:
+The first one of David and Eddie who Pushes will succeed without problem. For example suppose Eddie Pushes his commit (_E_) to the central repo before David Pushes _D_. We have:
 
 | repo and branch  |  commit history  |
 |-----|----:|
@@ -185,13 +185,14 @@ The first one of David and Eddie who Pushes will succeed without problem. For ex
 |Eddie local master | _E_ --> _C_ --> _B_ --> _A_ |
 
 
-David now cannot Push, because that would lead to an origin Commit history with two HEADs, _D_ and _E_. The (usual) solution is to reconcile the changes from _D_ and _E_ in a **Merge** operation, and **Push** the result. This is all done by David, locally, as follows:
+David now cannot Push, because that would lead to an origin Commit history with two HEADs, _D_ and _E_. The (usual) solution is to reconcile the changes from _D_ and _E_ in a **Merge** operation, and **Push** the result. This is all done by David, inside his local repo. The following sequence of git commands from David will do this:
 
 * Commit _D_ (already done by David locally)
-* Fetch origin (David's local copy is now aware of Eddie's _E_ Commit). NB Fetch is normally done automatically by **Pull**.
+* Fetch origin (David's local copy is now aware of Eddie's _E_ Commit). NB Fetch is also done automatically by **Pull**.
 * Pull origin. This merges _E_ with _D_ in David's local working tree - resolving collisions as necessary - also creating a new Commit _F_ in David's commit tree.
 * David tests _F_ (using his working tree files, equal to _F_) to check it still works.
 * David Pushes to origin.  Both _E_ and _F_ will be pushed to the central repository creating a diamond-shaped commit history with HEAD _F_ as below. The commit _F_ is allowed because _F_ is a single common HEAD to the master branch. Note that in Git, because of merges, a commit such as _F_ can have more than one parent, in this case _D_ and _E_.
+* _F_ will be picked up by Eddie when he next Fetches.
 
 <p align="center">
 <img src="gw2.jpg"> </img>
