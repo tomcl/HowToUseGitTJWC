@@ -312,21 +312,21 @@ See also Atlassian [description](https://www.atlassian.com/git/tutorials/compari
 
 ### Forking Workflow.
 
-As above but fork the origin cloud repo first to your own cloud Github repo. Then clone this to the local (working) repo. That allows each collaborator to have their own private cloud repo (which they can write) for their branch and is commonly used for open source projects. See also Atlassian [description](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow).
+As above but fork the origin cloud repo first to your own cloud Github repo. Then clone this to the local (working) repo. That allows each collaborator to have their own private cloud repo (which they can write) for their branch. See also Atlassian [description](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow).
 
 This workflow is typically used contributing to open source projects. It is more complex than contributing to a team project because contributors do not have write access to the central repo, nor are necessarily trusted. Therefore they cannot **Push** their commits. Instead one of the repo core contributer team (who do have write access) will **Pull** the commits - checking that they are OK. Developers therefore make **Pull requests** in order to push - which terminology is confusing when you first meet it.
 
-Why does this make things more complex? In order for your commits to be Pulled they must reside in a cloud-based repository - not your local working copy. Therefore one extra clone of the repository must be made by you as illustrated below.
+Why does this make things more complex? In order for your commits to be Pulled they must reside in a cloud-based (e.g. Github) repository - not your local working copy. Therefore one extra copy of the repository must be made by you connected as illustrated below:
 
 **local repo** ---origin (clone)---> **your github repo** ---origin (fork)---> **open source github repo**
 
-To implement forking workflow: first **Fork** the open source repo, to your Github account. 
+To implement this forking workflow: first **Fork** the open source repo, to your Github account: 
 
 * Navigate to the open source Github home page. Click the top righthand **Fork** button and create your own Github fork of the project.
 
-This is no different from cloning except that your copy of the repo has a named branch which starts equal to master at the time you forked. The forked copy can then be cloned locally as in the first part of this tutorial.
+This is similar to cloning except that your copy of the repo has a named branch which starts equal to master at the time you forked. The forked copy can then be cloned locally as in the first part of this tutorial:
 
-* Follow steps [above](#cloning-a-cloud-repository-with-write-access) to create your local working copy
+* Follow steps [above](#cloning-a-cloud-repository-with-write-access) to create your local cloned working copy of the forked repo.
 * Use the same workflow as before. When **Fetching**, your working tree and your local commit tree will be updated, via the github commit tree from the central repo. When **Pushing**, your fork will be updated in your Github repository from your local changes.
 * You can submit a **Pull Request** to the open source repo team to pull the changes from your branch back onto the central open source master from your Github repo.
 
@@ -346,7 +346,7 @@ Two key things to watch for in workflow from teams:
 #### Discussion
 
 1. Not using `push --force` is easy. Don't do it except as part of global repository maintenance by a very experienced person! It is not a solution to merge conflicts in shared projects and is never needed.
-2. The second point is more complex. When you merge the origin repository into your own code you will necessarily merge in a whole load of _other people's changes_ in files that you know nothing about. Thus the merge commit you make _to your own repo_ can change many files you do not yourself change. The key mistake naive people can make when merging is to think that the safe thing to do is to untick (not stage) all these not understood file changes so you change as little as possible. That means that your repo merge _undoes other people's commits_. When you push your merge back to the origin repo the merge will be accepted as you have made it - and other people will automatically lose their own work when they next pull!
+2. The second point is more complex. When you merge the origin repository into your own code you will necessarily merge in a whole load of _other people's changes_ in files that you know nothing about. Thus the merge commit you make _to your own repo_ can change many files you do not yourself change. The key mistake people can make when merging is to think that the safe thing to do is to untick (not stage) all these not understood file changes so you change as little as possible. That means that your repo merge _undoes other people's commits_. When you push your merge back to the origin repo the merge will be accepted as you have made it - and other people will automatically lose their own work when they next pull!
 3. Using private branches for your work (feature-branch or forking workflow) helps with 1. You can then use `push --force` on private branches, if you really want to. Private branch workflow also protects somewhat against 2. Private branch workflow delays merging back until the end when an experienced person can do it. Suppose a developer makes bad merges as in 2.  His changes will be incompatible with the rest of the project because he has excluded some commits from others. The final merge back will expose this problem, and if done wrong is still disastrous. The merit of this workflow is that branches back into master happen rarely and therefore time can be spent checking that they look OK by an experienced gatekeeper. Even so, all developers should be made aware of the dangers in 2.
 
 Additional points worth noting:
