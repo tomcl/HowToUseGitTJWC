@@ -332,6 +332,26 @@ This is like cloning except that your copy of the repo has a named branch which 
 * Use the same workflow as before. When **Fetching**, your working tree and your local commit tree will be updated, via the Github commit tree from the central repo. When **Pushing**, your fork will be updated in your Github repository from your local changes.
 * You can submit a **Pull Request** to the open source repo team to pull the changes from your branch back onto the central open source master from your Github repo.
 
+In order to incorporate upstream changes (from other developers) into your local copy of a forked repository you must:
+
+* pull and merge the upstream repository master changes into your github fork master.
+* fetch and pull the changes into your local copy
+
+Pulling from one github repository to another is implemented by the github pull request mechanism. Suppose you have made a personal Github fork A of a Github repository B that you do not control. Over time B will become out of date relative to the most recent commits on A. In order to update B with the latest commits from A:
+
+In your B Github home web page:
+
+* Click *New pull request*
+* Change *base fork* from default (B/master) to A/master
+* Click *compare across forks*
+* Change *head fork* to B/master
+* Click Create Pull Request
+* Fill in a title (e.g. merge)
+* Click *Create Pull Request*
+* Click *merge pull request*
+* Click *Confirm Merge*
+
+You can also do the same thing by changing the Origin of your local copy temporarily to A, and pulling/merging in A locally, then changing back to Origin B and pushing.
 
 ### Avoiding Disasters in Teams Using Git
 
@@ -392,7 +412,17 @@ To use `Git GUI` to make an amend:
 
 ### Git Reset
 
-Sometimes you want to abandon unsaved changes in working files and return to the last commit. The command here is `git reset --hard` which will need to be executed from a command line. This command permanently deletes any unsaved changes, so be careful.
+Sometimes you want to abandon uncommitted changes in working files and return to the last commit. This may be if you have been experimenting with a local change and decide that it is no good
+
+In Github desktop the files changed, deleted, or added, are shown in the LH panel. Clicking on a file shows the exact changes. Right-clicking a file allows you to abandon changes in just that one file, or all changes (so reverting to previous commit).
+
+If you have just committed some changes locally but *not yet pushed them upstream* you can undo the Commit:
+
+* In Github desktop click the Undo button that appears below the Commit button after you have performed a Commit and before you have clicked Push.
+
+Combining these two operations allows you to undo the last local Commit and the file chnages that were committed.
+
+
 
 ### Managing One Out of Synchronisation Local Repository
 
