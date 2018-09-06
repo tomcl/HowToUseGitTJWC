@@ -420,7 +420,7 @@ If you have just committed some changes locally but *not yet pushed them upstrea
 
 * In Github desktop click the Undo button that appears below the Commit button after you have performed a Commit and before you have clicked Push.
 
-Combining these two operations allows you to undo the last local Commit and the file chnages that were committed.
+Combining these two operations allows you to undo the last local Commit and the file changes that were committed.
 
 
 
