@@ -65,8 +65,10 @@ Git workflows are used _at an abstract level_ where the implementation is mostly
 * If you don't have one obtain a Github id from [Github](https://github.com/).
 * If you have an organisational Github licence (e.g. `ImperialCollege`), allowing private repositories, add the organisation to your id as described [here](https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/research-support-systems/github/working-with-githubcom/). Imperial College staff and students should add `ImperialCollege organisation` so that they can create private repositories when needed. After adding the organisation to your account, you will be able to choose either standard public-access Github, or organisation-based (allowed private) Github.
 * Before getting started download and install - for your platform - [git](https://git-scm.com/) and [Github desktop](https://desktop.github.com/).
+* Every github repo needs a file [.gitignore](#.gitignore) that specifies which file extensions don't get put in the repo. It can be a bit more complex - e.g. specifiy whole subdirectories that don't get stored. Git is meant to track source changes. If it also tracks all the build files your compiler generates the size of the repo will be 1000X larger than it should be. You can usually inherit .gitignore files from a repo you are cloning, or find an open source repo using the same tool set and copy its .gitignore. You need to get .gitignore right before you first compile your code, otherwise build output will get committed and then is sticky even if you add a .gitignore later.
 * If you want an operational guide follow bullet points in [Guide](#guide) below. Otherwise read linearly - you'll get to it soon.
 * Please star this repo if it is useful and provide feedback by creating issues so it can be improved.
+
 
 ## Centralised Workflow: Cloning a Cloud Repository with Write Access
 
